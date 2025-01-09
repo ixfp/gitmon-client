@@ -1,4 +1,6 @@
-export default function MainLayout({ children }: {children: JSX.Element}) {
+import { ReactNode } from "react";
+
+export default function BlogLayout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
       <header className="p-4 border-b dark:border-gray-700">
