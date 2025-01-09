@@ -2,16 +2,17 @@ import { StrictMode, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import '@styles/index.css'
-import Landing from '@pages/Landing.tsx'
-import TempBlog from '@pages/TempBlog.tsx';
+import { ROUTES_CONFIG } from 'routesConfig.ts';
+import Loading from '@components/Loading';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Loading />}>
       <Routes>
-        <Route path="" element={<Landing />} />
-        <Route path="/tempBlog" element={<TempBlog />} />
+        {ROUTES_CONFIG.map((route) => (
+          <Route key={route.path} path={route.path} element={<route.component />} />
+        ))}
       </Routes>
     </Suspense>
     </BrowserRouter>
