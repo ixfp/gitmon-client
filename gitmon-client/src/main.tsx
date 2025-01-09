@@ -2,8 +2,9 @@ import { StrictMode, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import '@styles/index.css'
-import { ROUTES_CONFIG } from 'routesConfig.ts';
+
 import Loading from '@components/Loading';
+import { ROUTES_CONFIG } from './routesConfig.ts';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
