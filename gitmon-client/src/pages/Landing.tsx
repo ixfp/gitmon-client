@@ -1,13 +1,20 @@
 import gitmonLogo from "@assets/gitmon.svg";
-import "@styles/index.css";
-import "@styles/App.css";
+import "@styles/landing.css";
 
-function App() {
+function Landing() {
   return (
-    <div className="max-w-screen-xl mx-auto p-8 text-center">
-      <div >
-        <a href="https://github.com/ixfp/gitmon" target="_blank" className="mx-auto">
-          <img src={gitmonLogo} className="logo" alt="Gitmon logo" />
+    <div className="text-center">
+      <div>
+        <a
+          href="https://github.com/ixfp/gitmon"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src={gitmonLogo}
+            className="logo react h-36 p-6 transition-filter duration-300 mx-auto"
+            alt="Gitmon logo"
+          />
         </a>
       </div>
       <h1>gitmon.blog</h1>
@@ -19,4 +26,4 @@ function App() {
   );
 }
 
-export default App;
+export default Landing;
