@@ -1,3 +1,4 @@
+import MarkdownRenderer from "./MarkdownRenderer";
 import type { Post } from "./types";
 import { Link } from "react-router-dom";
 
@@ -8,9 +9,7 @@ interface PostListProps {
 const PostList: React.FC<PostListProps> = ({ posts }) => {
   return (
     <div>
-      <h3 className="flex items-center text-lg font-bold px-4 py-2 rounded-md">
-        Posts
-      </h3>
+      <MarkdownRenderer markdown={`### Posts`} />
       {posts.map((post, index) => (
         <PostListItem key={index} post={post} />
       ))}

@@ -1,7 +1,9 @@
 import React from "react";
-import ReactMarkdown from "react-markdown";
-import Loading from "./Loading";
+
 import { useDummyData } from "@hooks/temp/useDummyData";
+
+import Loading from "./Loading";
+import MarkdownRenderer from "./MarkdownRenderer";
 
 const IntroComponent: React.FC = () => {
   const { data, isLoading, isError } = useDummyData("dummyIntro");
@@ -14,7 +16,7 @@ const IntroComponent: React.FC = () => {
     return <div>Error fetching data</div>;
   }
 
-  return <ReactMarkdown>{data.intro}</ReactMarkdown>;
+  return <MarkdownRenderer markdown={data.intro} />;
 };
 
 export default IntroComponent;
