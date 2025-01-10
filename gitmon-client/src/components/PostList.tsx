@@ -1,8 +1,5 @@
-type Post = {
-  title: string;
-  createdAt: string;
-  pinned?: boolean;
-};
+import type { Post } from "./types";
+import { Link } from "react-router-dom";
 
 interface PostListProps {
   posts: Post[];
@@ -10,8 +7,10 @@ interface PostListProps {
 
 const PostList: React.FC<PostListProps> = ({ posts }) => {
   return (
-    <div className="space-y-4">
-      <h3>Posts</h3>
+    <div>
+      <h3 className="flex items-center text-lg font-bold px-4 py-2 rounded-md">
+        Posts
+      </h3>
       {posts.map((post, index) => (
         <PostListItem key={index} post={post} />
       ))}
@@ -21,15 +20,18 @@ const PostList: React.FC<PostListProps> = ({ posts }) => {
 
 const PostListItem: React.FC<{ post: Post }> = ({ post }) => {
   return (
-    <div className="flex items-center space-x-4">
+    <Link
+      to={`blog/${post.id}`}
+      className="flex items-center space-x-4 hover:bg-gray-100 dark:hover:bg-gray-800 p-2 rounded mb-4"
+    >
       <div className="text-gray-500 text-sm">{post.createdAt}</div>
       <div className="border-l-2 border-gray-500 pl-4">
         <span className="text-lg">{post.title}</span>
-        {post.pinned && (
+        {post?.pinned && (
           <span className="ml-2 text-blue-500">📌</span> // 핀 아이콘
         )}
       </div>
-    </div>
+    </Link>
   );
 };
 
