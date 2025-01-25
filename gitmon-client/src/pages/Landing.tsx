@@ -18,7 +18,7 @@ function Landing() {
   // };
 
   return (
-    <div className="text-center">
+    <div className="flex flex-col items-center">
       <div>
         <a
           href="https://github.com/ixfp/gitmon"
@@ -38,7 +38,6 @@ function Landing() {
         updates.
       </p>
       <br />
-      <p>Let's Go to...</p>
       {/* <input ref={inputRef} onKeyDown={handleKeyDown} /> */}
       <GithubLoginButton />
     </div>
