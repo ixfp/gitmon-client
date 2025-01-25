@@ -1,10 +1,30 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import { StrictMode, Suspense } from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-createRoot(document.getElementById('root')!).render(
+import Loading from "@components/Loading";
+import { RouteConfig, ROUTES_CONFIG } from "./routesConfig.ts";
+
+import "@styles/index.css";
+
+const queryClient = new QueryClient();
+
+const renderRoutes = (routes: RouteConfig[]) =>
+  routes.map((route, index) => (
+    <Route key={index} path={route.path} element={<route.component />}>
+      {route.children && renderRoutes(route.children)}
+    </Route>
+  ));
+
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <App />
-  </StrictMode>,
-)
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Suspense fallback={<Loading />}>
+          <Routes>{renderRoutes(ROUTES_CONFIG)}</Routes>
+        </Suspense>
+      </BrowserRouter>
+    </QueryClientProvider>
+  </StrictMode>
+);
