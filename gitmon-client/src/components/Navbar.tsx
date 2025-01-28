@@ -3,7 +3,7 @@ import {
   NavigationMenuItem,
   NavigationMenuList,
   NavigationMenuLink,
-} from "@components/components/ui/navigation-menu";
+} from "@components/ui/navigation-menu";
 
 interface MenuItemProps {
   href: string;
