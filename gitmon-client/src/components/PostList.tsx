@@ -1,6 +1,6 @@
 import MarkdownRenderer from "./MarkdownRenderer";
 import type { Post } from "./types";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button } from "./ui/button";
 
 interface PostListProps {
@@ -8,11 +8,17 @@ interface PostListProps {
 }
 
 const PostList: React.FC<PostListProps> = ({ posts }) => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+
+  const handleAddPostClick = () => {
+    navigate(`/${id}/posts/add`);
+  };
   return (
     <div>
       <div className="flex justify-between items-center">
         <MarkdownRenderer markdown={`### Posts`} />
-        <Button>Add Post</Button>
+        <Button onClick={handleAddPostClick}>Add Post</Button>
       </div>
       {posts.map((post, index) => (
         <PostListItem key={index} post={post} />
