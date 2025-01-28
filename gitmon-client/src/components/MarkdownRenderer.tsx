@@ -29,9 +29,9 @@ const MarkdownRenderer = ({ markdown }: { markdown: string }) => {
           </h3>
         ),
         p: ({ node, ...props }) => (
-          <h3 {...props} className="p-2">
+          <p {...props} className="p-2">
             {props.children}
-          </h3>
+          </p>
         ),
       }}
     >
