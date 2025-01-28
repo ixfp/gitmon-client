@@ -1,4 +1,4 @@
-import ReactMarkdown from "react-markdown";
+import ReactMarkdown from 'react-markdown';
 
 const MarkdownRenderer = ({ markdown }: { markdown: string }) => {
   return (

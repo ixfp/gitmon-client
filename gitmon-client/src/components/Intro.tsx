@@ -1,12 +1,12 @@
-import React from "react";
+import { useDummyData } from '@hooks/temp/useDummyData';
+import React from 'react';
 
-import { useDummyData } from "@hooks/temp/useDummyData";
 
-import Loading from "./Loading";
-import MarkdownRenderer from "./MarkdownRenderer";
+import Loading from './Loading';
+import MarkdownRenderer from './MarkdownRenderer';
 
 const IntroComponent: React.FC = () => {
-  const { data, isLoading, isError } = useDummyData("dummyIntro");
+  const { data, isLoading, isError } = useDummyData('dummyIntro');
 
   if (isLoading) {
     return <Loading />;
