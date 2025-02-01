@@ -1,5 +1,8 @@
+import React from 'react';
+
 import Post from '@components/Post/Post';
 import BlogLayout from '@layouts/BlogLayout';
+import AddPost from '@pages/AddPost';
 import BlogMain from '@pages/BlogMain';
 import Landing from '@pages/Landing';
 
@@ -16,7 +19,7 @@ export const ROUTES_CONFIG: RouteConfig[] = [
     component: BlogLayout,
     children: [
       { path: ':id', component: BlogMain },
-      { path: ':id/posts/add', component: Post },
+      { path: ':id/posts/add', component: AddPost },
       { path: ':id/posts/:article_id', component: Post },
     ],
   },
