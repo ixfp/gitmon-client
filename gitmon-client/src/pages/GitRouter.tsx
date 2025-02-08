@@ -22,8 +22,9 @@ const GitRouter = () => {
       //   }
     },
     onSuccess: (data) => {
-      console.log(data);
-      window.location.href = `/tempBlog/${data}`;
+      // 신규 가입 및 등록된 repo가 없으면 repo 생성 페이지로 이동
+      // 추후엔 등록된 repo의 여부에 따라 분기 처리해야함
+      window.location.href = `/${data}/create-repo`;
     },
     onError: (error: any) => {
       console.error("Authentication failed:", error);
