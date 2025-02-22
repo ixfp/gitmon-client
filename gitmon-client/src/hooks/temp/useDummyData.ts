@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from '@tanstack/react-query';
 
 const fetchPosts = async (fetchTarget: string) => {
   try {
@@ -6,13 +6,13 @@ const fetchPosts = async (fetchTarget: string) => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Error fetching intro text:", error);
+    console.error('Error fetching intro text:', error);
   }
 };
 
 export const useDummyData = (fetchTarget: string) => {
   return useQuery({
-    queryKey: ["duumyData", fetchTarget],
+    queryKey: ['duumyData', fetchTarget],
     queryFn: () => fetchPosts(fetchTarget),
   });
 };

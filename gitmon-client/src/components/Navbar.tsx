@@ -3,7 +3,7 @@ import {
   NavigationMenuItem,
   NavigationMenuList,
   NavigationMenuLink,
-} from "@components/components/ui/navigation-menu";
+} from '@components/ui/navigation-menu';
 
 interface MenuItemProps {
   href: string;
@@ -25,11 +25,11 @@ const MenuItem: React.FC<MenuItemProps> = ({ href, label }) => {
 
 const Navbar = () => {
   const navList = [
-    { href: "/", label: "Home" },
-    { href: "/", label: "About" },
-    { href: "blog", label: "Blog" },
-    { href: "/", label: "Projects" },
-    { href: "/", label: "Archive" },
+    { href: '/', label: 'Home' },
+    { href: '/', label: 'About' },
+    { href: 'blog', label: 'Blog' },
+    { href: '/', label: 'Projects' },
+    { href: '/', label: 'Archive' },
   ];
   return (
     <nav>

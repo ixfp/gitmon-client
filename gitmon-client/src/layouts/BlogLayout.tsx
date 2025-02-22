@@ -1,5 +1,5 @@
-import Navbar from "@components/Navbar";
-import { Outlet, useParams } from "react-router-dom";
+import Navbar from '@components/Navbar';
+import { Outlet, useParams } from 'react-router-dom';
 
 const BlogLayout = () => {
   const { id } = useParams();
