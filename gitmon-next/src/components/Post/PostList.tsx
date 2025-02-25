@@ -4,7 +4,7 @@ import MarkdownRenderer from "@components/MarkdownRenderer";
 import { Button } from "@components/ui/button";
 
 import type { Post } from "./types";
-import { redirect } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import Link from "next/link";
 
 interface PostListProps {
@@ -31,10 +31,11 @@ const PostList: React.FC<PostListProps> = ({ posts, id }) => {
 };
 
 const PostListItem: React.FC<{ post: Post }> = ({ post }) => {
+  const pathname = usePathname();
   const { id, createdAt, title } = post;
   return (
     <Link
-      href={`posts/${id}`}
+      href={`${pathname}/posts/${id}`}
       className="flex items-center space-x-4 hover:bg-gray-100 dark:hover:bg-gray-800 p-2 rounded mb-4"
     >
       <div className="text-gray-500 text-sm">{createdAt}</div>
