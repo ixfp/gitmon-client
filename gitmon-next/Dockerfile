@@ -5,11 +5,11 @@ FROM node:lts AS build
 WORKDIR /app
 
 # Copy package.json from ../gitmon-next
-COPY ../gitmon-next/package*.json ./
+COPY package*.json ./
 RUN npm install
 
 # Copy all files from ../gitmon-next
-COPY ../gitmon-next ./
+COPY . .
 RUN npm run build
 
 # Production stage
