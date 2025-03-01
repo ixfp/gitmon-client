@@ -1,14 +1,30 @@
+# Build stage
 FROM node:lts AS build
-RUN mkdir /app
+
+# Create app directory
 WORKDIR /app
-COPY package*.json .
+
+# Copy package.json and install dependencies
+COPY ../gitmon-next/package*.json ./
 RUN npm install
-COPY . .
+
+# Copy all files and build Next.js app
+COPY ../gitmon-next ./
 RUN npm run build
 
-FROM nginx AS runtime
-RUN rm -rf /etc/nginx/conf.d
-COPY conf /etc/nginx
-COPY --from=build /app/dist /usr/share/nginx/html
+# Production stage
+FROM node:lts AS runtime
+
+WORKDIR /app
+
+# Copy built application from the build stage
+COPY --from=build /app/package*.json ./
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/.next ./.next
+COPY --from=build /app/public ./public
+
+# Expose Next.js default port
 EXPOSE 3100
-CMD ["nginx", "-g", "daemon off;"]
+
+# Start the Next.js server
+CMD ["npm", "run", "start"]
