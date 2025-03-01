@@ -1,3 +1,4 @@
+"use client"
 import { useState } from 'react';
 
 import MarkdownRenderer from '@components/MarkdownRenderer';
@@ -12,6 +13,9 @@ www.example.com, https://example.com, and contact@example.com.
 
 ~one~ or ~~two~~ tildes.
 
+## Bold
+**굵 다**
+
 ## Table
 
 | a | b  |  c |  d  |
@@ -21,19 +25,46 @@ www.example.com, https://example.com, and contact@example.com.
 
 ## Tasklist
 
-* [ ] to do
-* [x] done
+- [ ] to do
+- [x] done
+
+## Unordered List
+- hi
+- bye
+
+## Ordered List
+1. Coding
+2. Sleep
+
+## Seperator
+brbr
+
+---
+---
+
+## Code Block
+
+\`\`\` javascript
+const temp = 10
+
+console.log(temp)
+\`\`\`
+
+
+\`temp.temp.temptemp\`
+
 `;
+
   const [content, setContent] = useState<string>(tempContent);
   return (
-    <div className='flex'>
+    <div className='h-dvh flex'>
       <Textarea
-        className="h-64 flex-1"
+        className="flex-1 rounded-none resize-none"
         placeholder="Write your Markdown here..."
         value={content}
         onChange={(e) => setContent(e.target.value)}
       />
-      <div className='flex-1'>
+      <div className='flex-1 overflow-y-scroll p-2'>
         <MarkdownRenderer markdown={content} />
       </div>
     </div>
