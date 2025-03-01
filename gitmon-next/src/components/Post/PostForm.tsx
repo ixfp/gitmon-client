@@ -13,6 +13,9 @@ www.example.com, https://example.com, and contact@example.com.
 
 ~one~ or ~~two~~ tildes.
 
+## Bold
+**굵 다**
+
 ## Table
 
 | a | b  |  c |  d  |
@@ -25,7 +28,30 @@ www.example.com, https://example.com, and contact@example.com.
 - [ ] to do
 - [x] done
 
-1. 
+## Unordered List
+- hi
+- bye
+
+## Ordered List
+1. Coding
+2. Sleep
+
+## Seperator
+brbr
+
+---
+---
+
+## Code Block
+
+\`\`\` javascript
+const temp = 10
+
+console.log(temp)
+\`\`\`
+
+
+\`temp.temp.temptemp\`
 
 `;
 
@@ -38,7 +64,7 @@ www.example.com, https://example.com, and contact@example.com.
         value={content}
         onChange={(e) => setContent(e.target.value)}
       />
-      <div className='flex-1 overflow-y-scroll'>
+      <div className='flex-1 overflow-y-scroll p-2'>
         <MarkdownRenderer markdown={content} />
       </div>
     </div>
