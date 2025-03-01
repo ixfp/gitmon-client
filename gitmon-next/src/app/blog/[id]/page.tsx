@@ -15,7 +15,7 @@ function BlogMain({ id }: { id: string }) {
     <>
       <IntroComponent />
       <div className="grid grid-cols-1 gap-8">
-        <PostList posts={data} id={id} />
+        <PostList posts={data ?? []} id={id} />
       </div>
     </>
   );
