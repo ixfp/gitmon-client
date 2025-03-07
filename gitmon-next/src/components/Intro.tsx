@@ -1,22 +1,12 @@
-import { useDummyData } from '@hooks/temp/useDummyData';
-import React from 'react';
+import { fetchIntro } from "@hooks/temp/useDummyData";
+import React from "react";
 
+import MarkdownRenderer from "./MarkdownRenderer";
 
-import Loading from './Loading';
-import MarkdownRenderer from './MarkdownRenderer';
+const IntroComponent: React.FC = async () => {
+  const { intro } = await fetchIntro();
 
-const IntroComponent: React.FC = () => {
-  const { data, isLoading, isError } = useDummyData('dummyIntro');
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (isError || !data) {
-    return <div>Error fetching data</div>;
-  }
-
-  return <MarkdownRenderer markdown={data.intro} />;
+  return <MarkdownRenderer markdown={intro} />;
 };
 
 export default IntroComponent;
