@@ -1,9 +1,13 @@
 import { Post } from "@components/Post/types";
-import { useQuery } from "@tanstack/react-query";
 
-export const fetchPosts = async (fetchTarget: string): Promise<Post[]> => {
+const API_URL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3000"
+    : process.env.NEXT_PUBLIC_API_PATH;
+
+export const fetchPosts = async (): Promise<Post[]> => {
   try {
-    const response = await fetch(`/data/${fetchTarget}.json`);
+    const response = await fetch(`${API_URL}/data/dummyList.json`);
     const data = await response.json();
     return data;
   } catch (error) {
@@ -14,7 +18,7 @@ export const fetchPosts = async (fetchTarget: string): Promise<Post[]> => {
 
 export const fetchPost = async (id: string): Promise<Post> => {
   try {
-    const response = await fetch(`http://localhost:3000/data/dummyPost.json`);
+    const response = await fetch(`${API_URL}/data/dummyPost.json`);
     const data = await response.json();
     return data;
   } catch (error) {
@@ -23,9 +27,13 @@ export const fetchPost = async (id: string): Promise<Post> => {
   }
 };
 
-export const useDummyData = (fetchTarget: string) => {
-  return useQuery({
-    queryKey: ["dummyData", fetchTarget],
-    queryFn: () => fetchPosts(fetchTarget),
-  });
+export const fetchIntro = async (): Promise<{ intro: string }> => {
+  try {
+    const response = await fetch(`${API_URL}/data/dummyIntro.json`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching intro:", error);
+    throw error;
+  }
 };

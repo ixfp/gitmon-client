@@ -2,7 +2,14 @@ import Markdown from "react-markdown";
 
 import { fetchPost } from "@hooks/temp/useDummyData";
 
-export default async function Post({ article_id }: { article_id: string }) {
+export default async function Post({
+  params,
+}: {
+  params: Promise<{
+    article_id: string;
+  }>;
+}) {
+  const { article_id } = await params;
   const { title, content } = await fetchPost(article_id);
 
   return (

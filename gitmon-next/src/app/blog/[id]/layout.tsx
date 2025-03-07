@@ -1,7 +1,16 @@
 import Navbar from "@components/Navbar";
 import { ReactNode } from "react";
 
-const BlogLayout = ({ id, children }: { id: string; children: ReactNode }) => {
+export default async function BlogLayout({
+  params,
+  children,
+}: {
+  params: Promise<{
+    id: string;
+  }>;
+  children: ReactNode;
+}) {
+  const { id } = await params;
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
       <header className="flex justify-between items-center p-4 border-b dark:border-gray-700">
@@ -14,6 +23,4 @@ const BlogLayout = ({ id, children }: { id: string; children: ReactNode }) => {
       </footer>
     </div>
   );
-};
-
-export default BlogLayout;
+}
