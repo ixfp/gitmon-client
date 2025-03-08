@@ -30,4 +30,4 @@ ENV NEXT_PUBLIC_API_PATH=${NEXT_PUBLIC_API_PATH}
 EXPOSE 3100
 
 # Start the Next.js server on port 3100
-CMD ["npm", "run", "start", "--", "-port", "3100"]
+CMD ["npm", "run", "start", "--", "--port", "3100"]
