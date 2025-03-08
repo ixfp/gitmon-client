@@ -23,6 +23,9 @@ COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/.next ./.next
 COPY --from=build /app/public ./public
 
+ARG NEXT_PUBLIC_API_PATH
+ENV NEXT_PUBLIC_API_PATH=${NEXT_PUBLIC_API_PATH}
+
 # Expose Next.js to port 3100
 EXPOSE 3100
 
