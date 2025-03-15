@@ -1,32 +1,30 @@
-"use client";
-
+import BlogCard from "@components/BlogCard";
 import IntroComponent from "@components/Intro";
-import Loading from "@components/Loading";
-import PostList from "@components/Post/PostList";
-import { fetchPosts } from "@hooks/temp/useDummyData";
-import { useQuery } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
+import { blogPosts } from "@lib/data";
+import SearchSection from "./SearchSection";
 
-function BlogMain() {
-  const { id } = useParams<{
-    id: string;
-  }>();
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["posts", id],
-    queryFn: fetchPosts,
-  });
-
-  if (isLoading) return <Loading />;
-  if (error) return <div>Error loading posts</div>;
-
+async function BlogMain() {
   return (
-    <>
-      <IntroComponent />
-      <div className="grid grid-cols-1 gap-8">
-        <PostList posts={data ?? []} id={id} />
+    <div className="container mx-auto flex gap-8 h-dvh">
+      <div className="px-4 py-12 h-full overflow-auto">
+        <IntroComponent />
+        <PostsSection />
       </div>
-    </>
+      <div className="max-w-md overflow-auto">
+        <SearchSection />
+      </div>
+    </div>
   );
 }
+
+const PostsSection = () => {
+  return (
+    <div className="grid grid-cols-1 gap-8">
+      {blogPosts?.map((post) => (
+        <BlogCard key={post.slug} post={post} />
+      ))}
+    </div>
+  );
+};
 
 export default BlogMain;
