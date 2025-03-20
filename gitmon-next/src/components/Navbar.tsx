@@ -25,11 +25,11 @@ const MenuItem: React.FC<MenuItemProps> = ({ href, label }) => {
 
 const Navbar = () => {
   const navList = [
-    { href: '/', label: 'Home' },
-    { href: '/', label: 'About' },
+    { href: '/home', label: 'Home' },
+    // { href: '/about', label: 'About' },
     { href: 'blog', label: 'Blog' },
-    { href: '/', label: 'Projects' },
-    { href: '/', label: 'Archive' },
+    // { href: '/projects', label: 'Projects' },
+    // { href: '/archive', label: 'Archive' },
   ];
   return (
     <nav>
