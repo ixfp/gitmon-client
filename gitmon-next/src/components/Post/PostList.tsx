@@ -1,21 +1,34 @@
+'use client'
+
 import React from "react";
 
 import MarkdownRenderer from "@components/MarkdownRenderer";
 import { Button } from "@components/ui/button";
 
 import type { Post } from "./types";
-import { redirect, usePathname } from "next/navigation";
+import { redirect, useParams, usePathname } from "next/navigation";
 import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
+import { fetchPosts } from "@hooks/temp/useDummyData";
+import Loading from "@components/Loading";
 
-interface PostListProps {
-  posts: Post[];
-  id: string;
-}
+const PostList: React.FC = () => {
+  const { id } = useParams<{
+    id: string;
+  }>();
 
-const PostList: React.FC<PostListProps> = ({ posts, id }) => {
+  const { data = [], isLoading, error } = useQuery({
+    queryKey: ["posts", id],
+    queryFn: fetchPosts,
+  });
+
   const handleAddPostClick = () => {
     redirect(`/blog/${id}/posts/add`);
   };
+
+  if (isLoading) return <Loading />;
+  if (error) return <div>Error loading posts</div>;
+
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -23,7 +36,7 @@ const PostList: React.FC<PostListProps> = ({ posts, id }) => {
         {/* 해당 기능은 아마 auth에 의해 노출이 조작되어야 것임 */}
         <Button onClick={handleAddPostClick}>Add Post</Button>
       </div>
-      {posts.map((post, index) => (
+      {data.map((post, index) => (
         <PostListItem key={index} post={post} />
       ))}
     </div>
