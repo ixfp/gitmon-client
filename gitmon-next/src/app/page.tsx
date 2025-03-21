@@ -2,11 +2,11 @@ import gitmonLogo from "@assets/gitmon.svg";
 import React from "react";
 import "@styles/landing.css";
 import Image from "next/image";
-import { Button } from "@components/ui/button";
+import GithubLoginButton from "@components/GithubLoginButton";
 
 function Landing() {
   return (
-    <div className="text-center">
+    <div className="flex flex-col items-center">
       <a
         className="flex justify-center"
         href="https://github.com/ixfp/gitmon"
@@ -25,8 +25,7 @@ function Landing() {
         updates.
       </p>
       <br />
-      <p>{"Let's Go to..."}</p>
-      <Button>Empty Button, Please add Auth Button here</Button>
+      <GithubLoginButton />
     </div>
   );
 }
