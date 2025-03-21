@@ -1,5 +1,6 @@
 import Navbar from "@components/Navbar";
 import { ReactNode } from "react";
+import SearchSection from "./SearchSection";
 
 export default async function BlogLayout({
   params,
@@ -14,13 +15,13 @@ export default async function BlogLayout({
   const replacedId = id?.replace(/^%40/, "");
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-      <header className="flex justify-between items-center p-4 border-b dark:border-gray-700">
-        <h1 className="text-2xl font-bold">{replacedId}</h1>
-        <Navbar />
-      </header>
-      <main className="p-8">{children}</main>
-      <footer className="p-4 border-t dark:border-gray-700">
+    <div className="h-dvh bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col">
+      <Navbar />
+      <main className="flex-1 mr-96 ml-24">{children}</main>
+      <aside className="fixed top-0 right-0 w-96 h-full p-4 border-l dark:border-gray-700">
+        <SearchSection />
+      </aside>
+      <footer className="hidden p-4 border-t dark:border-gray-700">
         <p>© 2025 {replacedId}</p>
       </footer>
     </div>
