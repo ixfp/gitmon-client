@@ -1,13 +1,23 @@
-export interface BlogPost {
-  userId: string;
-  slug: string;
-  title: string;
-  date: string;
-  excerpt: string;
+export interface Post extends PostMeta {
+  content: string;
+}
+
+export interface PostWithServerData extends Post {
   readingTime: number;
-  coverImage: string;
-  content: string[];
   likes?: number;
+  comments?: Comment[];
+}
+
+export interface PostMeta {
+  title: string;
+  author: string;
+  slug: string;
+  createdAt: string;
+  updatedAt: string;
+  excerpt: string;
+  pinned?: boolean;
+  tags?: string[];
+  coverImage: string;
 }
 
 export interface Comment {

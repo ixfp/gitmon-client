@@ -1,26 +1,15 @@
-import BlogCard from "@components/BlogCard";
-import IntroComponent from "@components/Intro";
-import { blogPosts } from "@lib/data";
+import { PostList } from "@components/Post";
+import { fetchPosts } from "@lib/fetchGithub";
 
-async function BlogMain() {
+async function BlogMain({ params }: { params: Promise<{ id: string }> }) {
+  const posts = await fetchPosts((await params).id);
   return (
     <div className="container mx-auto flex gap-8 h-full">
       <div className="px-4 py-12 h-full overflow-auto">
-        <IntroComponent />
-        <PostsSection />
+        <PostList posts={posts} />
       </div>
     </div>
   );
 }
-
-const PostsSection = () => {
-  return (
-    <div className="grid grid-cols-1 gap-8">
-      {blogPosts?.map((post) => (
-        <BlogCard key={post.slug} post={post} />
-      ))}
-    </div>
-  );
-};
 
 export default BlogMain;

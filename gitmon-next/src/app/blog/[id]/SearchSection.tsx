@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { Input } from "@components/ui/input";
 import { blogPosts } from "@lib/data";
-import BlogCard from "@components/BlogCard";
 import { cn } from "@lib/utils";
 import { Badge } from "@components/ui/badge";
+import { PostListItem } from "@components/Post";
 
 const SearchSection = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -31,7 +31,7 @@ const SearchSection = () => {
         )}
       >
         {filteredPosts.map((post) => (
-          <BlogCard key={post.slug} post={post} variant="compact" />
+          <PostListItem key={post.slug} post={post} variant="compact" />
         ))}
       </div>
       <div
@@ -47,7 +47,7 @@ const SearchSection = () => {
           </span>
         </div>
         {blogPosts.map((post) => (
-          <BlogCard key={post.slug} post={post} variant="compact" />
+          <PostListItem key={post.slug} post={post} variant="compact" />
         ))}
       </div>
     </div>

@@ -13,3 +13,14 @@ export function formatDate(dateString: string): string {
     day: "numeric",
   }).format(date);
 }
+
+export function slugToTitle(slug: string): string {
+  return decodeURIComponent(slug)
+    .replace(/\.md$/, "")
+    .replace(/-/g, " ")
+    .replace(/\b\w/g, (match) => match.toUpperCase());
+}
+
+export function titleToSlug(title: string): string {
+  return encodeURIComponent(title.toLowerCase().replace(/\s/g, "-"));
+}
