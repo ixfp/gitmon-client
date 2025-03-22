@@ -1,14 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Calendar, Clock, MessageSquare } from "lucide-react";
+import { ArrowLeft, Calendar, LinkIcon, MessageSquare } from "lucide-react";
 import { blogPosts } from "@lib/data";
-import { formatDate } from "@lib/utils";
-import { LikeButton } from "@components/like-button";
+import { formatDate, replaceId } from "@lib/utils";
 import { Separator } from "@components/ui/separator";
 import { CommentSection } from "./CommentSection";
 import { fetchPost } from "@lib/fetchGithub";
-import Markdown from "react-markdown";
+import { Button } from "@components/ui";
+import MarkdownRenderer from "@components/MarkdownRenderer";
 
 export default async function BlogPost({
   params,
@@ -17,7 +17,8 @@ export default async function BlogPost({
 }) {
   const { slug, id } = await params;
   const post =
-    (await fetchPost(id, slug)) || blogPosts.find((post) => post.slug === slug);
+    (await fetchPost(replaceId(id), slug)) ||
+    blogPosts.find((post) => post.slug === slug);
 
   if (!post) {
     notFound();
@@ -26,7 +27,7 @@ export default async function BlogPost({
   return (
     <article className="container mx-auto px-4 py-12">
       <Link
-        href={`/blog/@${id}`}
+        href={`/blog/@${replaceId(id)}`}
         className="mb-8 inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground"
       >
         <ArrowLeft className="mr-2 h-4 w-4" />
@@ -45,14 +46,14 @@ export default async function BlogPost({
                 {post.createdAt ? formatDate(post.createdAt) : "Unknown date"}
               </time>
             </div>
-            <div className="flex items-center gap-1">
+            {/* <div className="flex items-center gap-1">
               <Clock className="h-4 w-4" />
               <span>
                 {post.readingTime
                   ? `${post.readingTime} min read`
                   : "Unknown reading time"}
               </span>
-            </div>
+            </div> */}
             <div className="flex items-center gap-1">
               <MessageSquare className="h-4 w-4" />
               <span>{"3"} comments</span>
@@ -70,18 +71,20 @@ export default async function BlogPost({
         />
 
         <div className="prose prose-lg mx-auto dark:prose-invert">
-          <Markdown>{post.content}</Markdown>
+          <MarkdownRenderer markdown={post.content} />
         </div>
 
         <div className="mt-8 flex items-center justify-between">
-          <div className="flex items-center gap-4">
+          {/* <div className="flex items-center gap-4">
             <LikeButton postSlug={slug} initialLikes={post.likes || 0} />
-          </div>
+          </div> */}
           <div className="flex items-center gap-2">
             <span className="text-sm text-muted-foreground">
               Share this post:
             </span>
-            {/* Social share buttons would go here */}
+            <Button variant="link">
+              <LinkIcon></LinkIcon>
+            </Button>
           </div>
         </div>
 

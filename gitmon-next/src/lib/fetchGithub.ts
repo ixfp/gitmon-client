@@ -8,9 +8,8 @@ const BRANCH = "main";
 export async function fetchPost(id: string, slug: string): Promise<Post> {
   // slug: "my-first-post" 형식으로 들어온다고 가정 (확장자 .md는 안 붙임)
   const fileName = `${slug}.md`;
-  const replacedId = id?.replace(/^%40/, "");
 
-  const fileUrl = `https://raw.githubusercontent.com/${replacedId}/${GITHUB_REPO}/${BRANCH}/posts/${fileName}`;
+  const fileUrl = `https://raw.githubusercontent.com/${id}/${GITHUB_REPO}/${BRANCH}/posts/${fileName}`;
   const res = await fetch(fileUrl);
   if (!res.ok) throw new Error(`Failed to fetch post: ${fileUrl}`);
 
@@ -40,17 +39,16 @@ async function parsePost(fileUrl: string): Promise<Post> {
 }
 
 export async function fetchPosts(id: string): Promise<Post[]> {
-  const replacedId = id?.replace(/^%40/, "");
-  const apiUrl = `https://api.github.com/repos/${replacedId}/${GITHUB_REPO}/contents/posts`;
+  const apiUrl = `https://api.github.com/repos/${id}/${GITHUB_REPO}/contents/posts`;
   const res = await fetch(apiUrl);
   if (!res.ok) throw new Error("Failed to fetch post list.");
 
-  const files = await res.json();
+  const files: { name: string; download_url: string }[] = await res.json();
 
-  const markdownFiles = files.filter((file: any) => file.name.endsWith(".md"));
+  const markdownFiles = files.filter((file) => file.name.endsWith(".md"));
 
   const posts = await Promise.all(
-    markdownFiles.map((file: any) =>
+    markdownFiles.map((file) =>
       parsePost(file.download_url)
         .then((post) => {
           return post;

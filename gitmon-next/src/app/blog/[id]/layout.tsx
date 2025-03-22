@@ -1,6 +1,7 @@
 import Navbar from "@components/Navbar";
 import { ReactNode } from "react";
 import SearchSection from "./SearchSection";
+import { replaceId } from "@lib/utils";
 
 export default async function BlogLayout({
   params,
@@ -12,7 +13,6 @@ export default async function BlogLayout({
   children: ReactNode;
 }) {
   const { id } = await params;
-  const replacedId = id?.replace(/^%40/, "");
 
   return (
     <div className="h-dvh bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col">
@@ -22,7 +22,7 @@ export default async function BlogLayout({
         <SearchSection />
       </aside>
       <footer className="hidden p-4 border-t dark:border-gray-700">
-        <p>© 2025 {replacedId}</p>
+        <p>© 2025 {replaceId(id)}</p>
       </footer>
     </div>
   );
