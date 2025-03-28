@@ -1,31 +1,15 @@
-"use client";
+import { PostList } from "@components/Post";
+import { fetchPosts } from "@lib/fetchGithub";
+import { replaceId } from "@lib/utils";
 
-import IntroComponent from "@components/Intro";
-import Loading from "@components/Loading";
-import PostList from "@components/Post/PostList";
-import { fetchPosts } from "@hooks/temp/useDummyData";
-import { useQuery } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
-
-function BlogMain() {
-  const { id } = useParams<{
-    id: string;
-  }>();
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["posts", id],
-    queryFn: fetchPosts,
-  });
-
-  if (isLoading) return <Loading />;
-  if (error) return <div>Error loading posts</div>;
-
+async function BlogMain({ params }: { params: Promise<{ id: string }> }) {
+  const posts = await fetchPosts(replaceId((await params).id));
   return (
-    <>
-      <IntroComponent />
-      <div className="grid grid-cols-1 gap-8">
-        <PostList posts={data ?? []} id={id} />
+    <div className="container mx-auto flex gap-8 h-full">
+      <div className="px-4 py-12 h-full overflow-auto">
+        <PostList posts={posts} />
       </div>
-    </>
+    </div>
   );
 }
 
