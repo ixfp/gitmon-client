@@ -25,8 +25,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css"
+        />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased font-[Spoqa Han Sans Neo]`}
       >
         <Providers>{children}</Providers>
       </body>
