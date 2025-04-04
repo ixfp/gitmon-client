@@ -4,9 +4,8 @@ import GitHubIcon from "@assets/GithubIcon"
 
 function GithubLoginButton() {
   const handleLoginClick = () => {
-    const clientId = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID;
-    const redirectUri = process.env.NEXT_PUBLIC_GITHUB_REDIRECT_URI;
-    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user`;
+    const githubAuthUrl = `https://api.gitmon.blog/api/v1/login/oauth/github
+`;
 
     window.location.href = githubAuthUrl;
   };
