@@ -30,6 +30,7 @@ const GitRouter = () => {
 
       // accessToken을 ssr에서 어떻게 다룰 것인가?
       // 일단은 로컬 스토리지에 저장
+      document.cookie = `github_token=${accessToken}; path=/; secure`;
       window.localStorage.setItem('token', accessToken)
 
       if (!isRepoCreated) {
