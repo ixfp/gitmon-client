@@ -1,72 +1,235 @@
-"use client"
-import { useState } from 'react';
+"use client";
 
-import MarkdownRenderer from '@components/MarkdownRenderer';
-import { Textarea } from '@components/ui/textarea';
+import { useState, useRef, useCallback } from "react";
+import { Button } from "@components/ui/button";
+import { Input } from "@components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
+import { Textarea } from "@components/ui/textarea";
+import { Card } from "@components/ui/card";
+import { Toaster } from "@components/ui/sonner";
+import MarkdownPreview from "./markdown-preview";
+import ToolbarButton from "./toolbar-button";
+import ImageUploader from "./image-uploader";
+import {
+  Bold,
+  Italic,
+  Heading1,
+  Heading2,
+  Heading3,
+  List,
+  ListOrdered,
+  Quote,
+  Code,
+  LinkIcon,
+  Save,
+  CornerDownLeft,
+  ImageIcon,
+} from "lucide-react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 
-export default function PostForm() {
-  const tempContent = `## Autolink literals
+interface PostFormProps {
+  onPostSaved: (post: { title: string; content: string }) => void;
+}
 
-www.example.com, https://example.com, and contact@example.com.
+export function PostForm({ onPostSaved }: PostFormProps) {
+  const params = useParams();
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [showImageUploader, setShowImageUploader] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-## Strikethrough
+  const insertTextAtCursor = useCallback(
+    (textBefore: string, textAfter = "") => {
+      if (!textareaRef.current) return;
 
-~one~ or ~~two~~ tildes.
+      const textarea = textareaRef.current;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const selectedText = content.substring(start, end);
 
-## Bold
-**굵 다**
+      const newText =
+        content.substring(0, start) +
+        textBefore +
+        selectedText +
+        textAfter +
+        content.substring(end);
 
-## Table
+      setContent(newText);
 
-| a | b  |  c |  d  |
-| - | :- | -: | :-: |
-| 1 | left | right | center |
-| 2 | left | right | center |
+      setTimeout(() => {
+        textarea.focus();
+        textarea.setSelectionRange(
+          start + textBefore.length,
+          start + textBefore.length + selectedText.length
+        );
+      }, 0);
+    },
+    [content]
+  );
 
-## Tasklist
+  const handleFormatClick = (format: string) => {
+    switch (format) {
+      case "bold":
+        insertTextAtCursor("**", "**");
+        break;
+      case "italic":
+        insertTextAtCursor("_", "_");
+        break;
+      case "h1":
+        insertTextAtCursor("# ");
+        break;
+      case "h2":
+        insertTextAtCursor("## ");
+        break;
+      case "h3":
+        insertTextAtCursor("### ");
+        break;
+      case "ul":
+        insertTextAtCursor("- ");
+        break;
+      case "ol":
+        insertTextAtCursor("1. ");
+        break;
+      case "quote":
+        insertTextAtCursor("> ");
+        break;
+      case "code":
+        insertTextAtCursor("```\n", "\n```");
+        break;
+      case "link":
+        insertTextAtCursor("[", "](url)");
+        break;
+      case "image":
+        setShowImageUploader(true);
+        break;
+      default:
+        break;
+    }
+  };
 
-- [ ] to do
-- [x] done
+  const handleImageInsert = (imageUrl: string) => {
+    insertTextAtCursor(`![Image](${imageUrl})`);
+    setShowImageUploader(false);
+  };
 
-## Unordered List
-- hi
-- bye
-
-## Ordered List
-1. Coding
-2. Sleep
-
-## Seperator
-brbr
-
----
----
-
-## Code Block
-
-\`\`\` javascript
-const temp = 10
-
-console.log(temp)
-\`\`\`
-
-
-\`temp.temp.temptemp\`
-
-`;
-
-  const [content, setContent] = useState<string>(tempContent);
   return (
-    <div className='h-dvh flex'>
-      <Textarea
-        className="flex-1 rounded-none resize-none"
-        placeholder="Write your Markdown here..."
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-      />
-      <div className='flex-1 overflow-y-scroll p-2'>
-        <MarkdownRenderer markdown={content} />
+    <div className="space-y-6">
+      <div className="flex flex-col space-y-4">
+        <Input
+          placeholder="Post Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="text-xl font-semibold"
+        />
+
+        <div className="flex flex-wrap gap-1 border rounded-md p-1 bg-muted/30">
+          <ToolbarButton
+            icon={<Bold size={18} />}
+            onClick={() => handleFormatClick("bold")}
+            tooltip="Bold"
+          />
+          <ToolbarButton
+            icon={<Italic size={18} />}
+            onClick={() => handleFormatClick("italic")}
+            tooltip="Italic"
+          />
+          <ToolbarButton
+            icon={<Heading1 size={18} />}
+            onClick={() => handleFormatClick("h1")}
+            tooltip="Heading 1"
+          />
+          <ToolbarButton
+            icon={<Heading2 size={18} />}
+            onClick={() => handleFormatClick("h2")}
+            tooltip="Heading 2"
+          />
+          <ToolbarButton
+            icon={<Heading3 size={18} />}
+            onClick={() => handleFormatClick("h3")}
+            tooltip="Heading 3"
+          />
+          <ToolbarButton
+            icon={<List size={18} />}
+            onClick={() => handleFormatClick("ul")}
+            tooltip="Bullet List"
+          />
+          <ToolbarButton
+            icon={<ListOrdered size={18} />}
+            onClick={() => handleFormatClick("ol")}
+            tooltip="Numbered List"
+          />
+          <ToolbarButton
+            icon={<Quote size={18} />}
+            onClick={() => handleFormatClick("quote")}
+            tooltip="Quote"
+          />
+          <ToolbarButton
+            icon={<Code size={18} />}
+            onClick={() => handleFormatClick("code")}
+            tooltip="Code Block"
+          />
+          <ToolbarButton
+            icon={<LinkIcon size={18} />}
+            onClick={() => handleFormatClick("link")}
+            tooltip="Link"
+          />
+          <ToolbarButton
+            icon={<ImageIcon size={18} />}
+            onClick={() => handleFormatClick("image")}
+            tooltip="Image"
+          />
+        </div>
       </div>
+
+      <Tabs defaultValue="write" className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="write">Write</TabsTrigger>
+          <TabsTrigger value="preview">Preview</TabsTrigger>
+        </TabsList>
+        <TabsContent value="write" className="mt-2">
+          <Textarea
+            ref={textareaRef}
+            placeholder="Write your post content in markdown..."
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            className="min-h-[400px] font-mono text-sm resize-y"
+          />
+        </TabsContent>
+        <TabsContent value="preview" className="mt-2">
+          <Card className="p-4 min-h-[400px] overflow-auto">
+            <MarkdownPreview content={content} />
+          </Card>
+        </TabsContent>
+      </Tabs>
+
+      <div className="flex justify-between">
+        <div className="space-x-2">
+          <Button className="gap-2" asChild>
+            <Link href={`/${params.id}/${params.repo}`}>
+              <CornerDownLeft size={16} />
+              뒤로 갑시다.
+            </Link>
+          </Button>
+
+          <Button
+            onClick={() => onPostSaved({ title, content })}
+            className="gap-2"
+          >
+            <Save size={16} />
+            Save Post
+          </Button>
+        </div>
+      </div>
+
+      {showImageUploader && (
+        <ImageUploader
+          onImageInsert={handleImageInsert}
+          onCancel={() => setShowImageUploader(false)}
+        />
+      )}
+
+      <Toaster />
     </div>
   );
 }

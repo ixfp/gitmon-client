@@ -1,31 +1,13 @@
-// lib/github.ts
 import matter from "gray-matter";
 import { Post, PostMeta } from "./types";
 
-const GITHUB_REPO = "repo-md";
-const BRANCH = "main";
-
-export async function fetchPost(id: string, slug: string): Promise<Post> {
-  // slug: "my-first-post" 형식으로 들어온다고 가정 (확장자 .md는 안 붙임)
-  const fileName = `${slug}.md`;
-
-  const fileUrl = `https://raw.githubusercontent.com/${id}/${GITHUB_REPO}/${BRANCH}/posts/${fileName}`;
-  const res = await fetch(fileUrl);
-  if (!res.ok) throw new Error(`Failed to fetch post: ${fileUrl}`);
-
-  const rawMarkdown = await res.text();
-  const { data, content } = matter(rawMarkdown) as unknown as {
-    data: PostMeta;
-    content: string;
-  };
-
-  return {
-    content,
-    ...data,
-  };
+export interface RepoInfo {
+  id: string;
+  repo: string;
+  branch?: string;
 }
 
-async function parsePost(fileUrl: string): Promise<Post> {
+export async function fetchPost(fileUrl: string): Promise<Post> {
   const res = await fetch(fileUrl);
   if (!res.ok) throw new Error(`Failed to fetch: ${fileUrl}`);
 
@@ -38,10 +20,23 @@ async function parsePost(fileUrl: string): Promise<Post> {
   return { ...data, content };
 }
 
-export async function fetchPosts(id: string): Promise<Post[]> {
-  const apiUrl = `https://api.github.com/repos/${id}/${GITHUB_REPO}/contents/posts`;
-  const res = await fetch(apiUrl);
-  if (!res.ok) throw new Error("Failed to fetch post list.");
+export async function fetchPosts({ id, repo }: RepoInfo): Promise<Post[]> {
+  const apiUrl = `https://api.github.com/repos/${id}/${repo}/contents`;
+
+  const res = await fetch(apiUrl, {
+    // headers,
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    console.error("Error fetching posts:", error);
+
+    if (res.status === 404 && error?.message === "This repository is empty.") {
+      console.warn("Repo is empty. Returning empty posts array.");
+      return [];
+    }
+    throw new Error(`Failed to fetch post list: ${error?.message}`);
+  }
 
   const files: { name: string; download_url: string }[] = await res.json();
 
@@ -49,7 +44,7 @@ export async function fetchPosts(id: string): Promise<Post[]> {
 
   const posts = await Promise.all(
     markdownFiles.map((file) =>
-      parsePost(file.download_url)
+      fetchPost(file.download_url)
         .then((post) => {
           return post;
         })

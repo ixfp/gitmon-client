@@ -6,7 +6,7 @@ import { blogPosts } from "@lib/data";
 import { formatDate, replaceId } from "@lib/utils";
 import { Separator } from "@components/ui/separator";
 import { CommentSection } from "./CommentSection";
-import { fetchPost } from "@lib/fetchGithub";
+import { fetchPost } from "@lib/github";
 import { Button } from "@components/ui";
 import MarkdownRenderer from "@components/MarkdownRenderer";
 
@@ -17,7 +17,7 @@ export default async function BlogPost({
 }) {
   const { slug, id } = await params;
   const post =
-    (await fetchPost(replaceId(id), slug)) ||
+    (await fetchPost(replaceId(id))) ||
     blogPosts.find((post) => post.slug === slug);
 
   if (!post) {

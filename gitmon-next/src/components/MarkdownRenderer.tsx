@@ -1,76 +1,46 @@
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { Typography } from "./ui/typography";
 
 const MarkdownRenderer = ({ markdown }: { markdown: string }) => {
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
       components={{
-        h1: ({ children, ...props }) => (
-          <h1
-            {...props}
-            className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl"
-          >
-            {children}
-          </h1>
+        h1: ({ ...props }) => (
+          <Typography variant="h1" className="my-6" {...props} />
         ),
-        h2: ({ children, ...props }) => (
-          <h2
-            {...props}
-            className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0"
-          >
-            {children}
-          </h2>
+        h2: ({ ...props }) => (
+          <Typography variant="h2" className="my-5" {...props} />
         ),
-        h3: ({ children, ...props }) => (
-          <h3
-            {...props}
-            className="scroll-m-20 text-2xl font-semibold tracking-tight"
-          >
-            {children}
-          </h3>
+        h3: ({ ...props }) => (
+          <Typography variant="h3" className="my-4" {...props} />
         ),
-        p: ({ children, ...props }) => (
-          <p {...props} className="p-2">
-            {children}
-          </p>
+        p: ({ ...props }) => (
+          <Typography variant="p" className="mt-4" {...props} />
         ),
-        table: ({ children, ...props }) => (
-          <table {...props} className="table-auto border-collapse border border-gray-400 w-full">
-            {children}
-          </table>
+        blockquote: ({ ...props }) => (
+          <Typography variant="blockquote" {...props} />
         ),
-        th: ({ ...props }) => (
-          <th {...props} className="border border-gray-400 bg-gray-200 px-4 py-2 text-left" />
+        ul: ({ ...props }) => (
+          <Typography variant="ul" className="my-3" {...props} />
         ),
-        td: ({ ...props }) => (
-          <td {...props} className="border border-gray-400 px-4 py-2" />
+        ol: ({ ...props }) => (
+          <Typography variant="ol" className="my-3" {...props} />
         ),
-        ol: ({ children, ...props }) => (
-          <ol className="list-decimal list-inside" {...props}>
-            {children}
-          </ol>
+        pre: ({ ...props }) => (
+          <Typography variant="pre" className="my-4" {...props} />
         ),
-        ul: ({ children, ...props }) => (
-          <ul className="list-disc list-inside" {...props}>
-            {children}
-          </ul>
+        code: ({ ...props }) => <Typography variant="code" {...props} />,
+        table: ({ ...props }) => (
+          <Typography variant="table" className="my-4" {...props} />
         ),
-        pre: ({children, ...props}) => (
-          <pre
-            className="bg-zinc-100 relative rounded bg-muted px-[0.3rem] my-2 py-[0.2rem] font-mono text-sm font-semibold" {...props}
-          >{children}</pre>
+        tr: ({ ...props }) => <Typography variant={"tr"} {...props} />,
+        th: ({ ...props }) => <Typography variant={"th"} {...props} />,
+        td: ({ ...props }) => <Typography variant={"td"} {...props} />,
+        hr: ({ ...props }) => (
+          <Typography variant="hr" className="my-6 opacity-50" {...props} />
         ),
-        code: ({children, ...props}) => (
-          <code 
-            className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold"
-            {...props}
-              >
-            {children}
-          </code>
-        ),
-        hr: (...props) =>  <hr className='mb-6' {...props}/>
-        
       }}
     >
       {markdown}
