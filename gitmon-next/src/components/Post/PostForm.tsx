@@ -26,12 +26,14 @@ import {
   ImageIcon,
 } from "lucide-react";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
 interface PostFormProps {
   onPostSaved: (post: { title: string; content: string }) => void;
 }
 
 export function PostForm({ onPostSaved }: PostFormProps) {
+  const params = useParams();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [showImageUploader, setShowImageUploader] = useState(false);
@@ -204,7 +206,7 @@ export function PostForm({ onPostSaved }: PostFormProps) {
       <div className="flex justify-between">
         <div className="space-x-2">
           <Button className="gap-2" asChild>
-            <Link href={".."}>
+            <Link href={`/${params.id}/${params.repo}`}>
               <CornerDownLeft size={16} />
               뒤로 갑시다.
             </Link>

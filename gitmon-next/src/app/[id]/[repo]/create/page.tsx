@@ -79,7 +79,7 @@ export default function AddPost() {
   };
   return (
     <div className="p-4">
-      <PostForm onPostSaved={handleSavePost} />;
+      <PostForm onPostSaved={handleSavePost} />
     </div>
   );
 }
