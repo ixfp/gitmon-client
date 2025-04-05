@@ -8,6 +8,9 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
+ARG NEXT_PUBLIC_API_DOMAIN
+ENV NEXT_PUBLIC_API_DOMAIN=${NEXT_PUBLIC_API_DOMAIN}
+
 # Copy all files from ../gitmon-next
 COPY . .
 RUN npm run build
@@ -22,9 +25,6 @@ COPY --from=build /app/package*.json ./
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/.next ./.next
 COPY --from=build /app/public ./public
-
-ARG NEXT_PUBLIC_API_DOMAIN
-ENV NEXT_PUBLIC_API_DOMAIN=${NEXT_PUBLIC_API_DOMAIN}
 
 # Expose Next.js to port 3100
 EXPOSE 3100
