@@ -1,116 +1,138 @@
-import type { BlogPost } from "./types";
+import type { Post } from "./types";
 
-export const blogPosts: BlogPost[] = [
+export const blogPosts: Post[] = [
   {
-    userId: "yadonTastesGood",
+    author: "yadonTastesGood",
     slug: "getting-started-with-nextjs",
     title: "Getting Started with Next.js: A Comprehensive Guide",
-    date: "2023-09-15",
+    createdAt: "2023-09-15",
+    updatedAt: "2023-09-15",
     excerpt:
       "Learn how to build modern web applications with Next.js, the React framework for production.",
-    readingTime: 8,
     coverImage: "/placeholder.svg?height=600&width=1200",
-    content: [
-      "Next.js has revolutionized the way developers build React applications. With its file-based routing, server-side rendering, and static site generation capabilities, it provides an excellent developer experience while ensuring optimal performance for end users.",
-      "In this guide, we'll explore the core features of Next.js and how to leverage them to build fast, SEO-friendly web applications. We'll cover everything from setting up your first project to deploying it to production.",
-      "One of the most powerful features of Next.js is its hybrid rendering capabilities. You can choose between static generation, server-side rendering, or client-side rendering on a per-page basis, allowing you to optimize each page according to its specific requirements.",
-      "The App Router, introduced in Next.js 13, takes this flexibility even further by allowing you to define layouts, loading states, and error boundaries at the route level. This makes it easier to create complex, nested UIs while maintaining good performance and user experience.",
-      "Whether you're building a blog, an e-commerce site, or a complex web application, Next.js provides the tools and features you need to succeed. Its growing ecosystem and active community ensure that you'll find solutions to common problems and stay up-to-date with the latest web development trends.",
-    ],
-    likes: 42,
+    content: `
+Next.js has revolutionized the way developers build React applications. With its file-based routing, server-side rendering, and static site generation capabilities, it provides an excellent developer experience while ensuring optimal performance for end users.
+
+In this guide, we'll explore the core features of Next.js and how to leverage them to build fast, SEO-friendly web applications. We'll cover everything from setting up your first project to deploying it to production.
+
+One of the most powerful features of Next.js is its hybrid rendering capabilities. You can choose between static generation, server-side rendering, or client-side rendering on a per-page basis, allowing you to optimize each page according to its specific requirements.
+
+The App Router, introduced in Next.js 13, takes this flexibility even further by allowing you to define layouts, loading states, and error boundaries at the route level. This makes it easier to create complex, nested UIs while maintaining good performance and user experience.
+
+Whether you're building a blog, an e-commerce site, or a complex web application, Next.js provides the tools and features you need to succeed. Its growing ecosystem and active community ensure that you'll find solutions to common problems and stay up-to-date with the latest web development trends.
+    `.trim(),
   },
   {
-    userId: "yadonTastesGood",
+    author: "yadonTastesGood",
     slug: "mastering-tailwind-css",
     title: "Mastering Tailwind CSS: From Basics to Advanced Techniques",
-    date: "2023-10-22",
+    createdAt: "2023-10-22",
+    updatedAt: "2023-10-22",
     excerpt:
       "Discover how to leverage Tailwind CSS to create beautiful, responsive user interfaces without writing custom CSS.",
-    readingTime: 6,
     coverImage: "/placeholder.svg?height=600&width=1200",
-    content: [
-      "Tailwind CSS has gained immense popularity in recent years, and for good reason. Its utility-first approach allows developers to build custom designs without leaving their HTML, resulting in faster development cycles and more consistent UIs.",
-      "In this article, we'll dive deep into Tailwind CSS, exploring its core concepts, best practices, and advanced techniques. We'll start with the basics of utility classes and gradually move to more complex topics like customization, responsive design, and component extraction.",
-      "One of the key advantages of Tailwind is its comprehensive set of utilities that cover almost every CSS property you might need. From spacing and typography to flexbox and grid, Tailwind provides a consistent API for styling your elements.",
-      "But Tailwind isn't just about individual utilities. It also includes a powerful plugin system that allows you to extend its functionality and create your own utilities. Combined with its JIT (Just-In-Time) compiler, this makes Tailwind an incredibly flexible and powerful tool for modern web development.",
-      "By the end of this article, you'll have a solid understanding of how to use Tailwind CSS effectively in your projects, and you'll be equipped with the knowledge to create beautiful, responsive designs without writing a single line of custom CSS.",
-    ],
-    likes: 28,
+    content: `
+Tailwind CSS has gained immense popularity in recent years, and for good reason. Its utility-first approach allows developers to build custom designs without leaving their HTML, resulting in faster development cycles and more consistent UIs.
+
+In this article, we'll dive deep into Tailwind CSS, exploring its core concepts, best practices, and advanced techniques. We'll start with the basics of utility classes and gradually move to more complex topics like customization, responsive design, and component extraction.
+
+One of the key advantages of Tailwind is its comprehensive set of utilities that cover almost every CSS property you might need. From spacing and typography to flexbox and grid, Tailwind provides a consistent API for styling your elements.
+
+But Tailwind isn't just about individual utilities. It also includes a powerful plugin system that allows you to extend its functionality and create your own utilities. Combined with its JIT (Just-In-Time) compiler, this makes Tailwind an incredibly flexible and powerful tool for modern web development.
+
+By the end of this article, you'll have a solid understanding of how to use Tailwind CSS effectively in your projects, and you'll be equipped with the knowledge to create beautiful, responsive designs without writing a single line of custom CSS.
+    `.trim(),
   },
   {
-    userId: "yadonTastesGood",
+    author: "yadonTastesGood",
     slug: "react-server-components",
     title: "Understanding React Server Components: The Future of React",
-    date: "2023-11-30",
+    createdAt: "2023-11-30",
+    updatedAt: "2023-11-30",
     excerpt:
       "Explore how React Server Components are changing the way we think about building React applications.",
-    readingTime: 10,
     coverImage: "/placeholder.svg?height=600&width=1200",
-    content: [
-      "React Server Components represent a paradigm shift in how we build React applications. By allowing components to run on the server, they enable new patterns and optimizations that weren't possible before.",
-      "In this deep dive, we'll explore what Server Components are, how they differ from traditional React components, and how they can improve the performance and user experience of your applications.",
-      "One of the key benefits of Server Components is that they can access server-side resources directly, without the need for APIs or client-server communication. This means you can query databases, access the file system, or call internal services directly from your components.",
-      "Another advantage is that Server Components don't increase your JavaScript bundle size. Since they run exclusively on the server, their code is never sent to the client, resulting in smaller bundles and faster load times.",
-      "Next.js has embraced Server Components as a core part of its App Router architecture. By default, all components in the App Router are Server Components, unless explicitly marked as 'use client'. This approach encourages developers to think server-first and only move to the client when necessary.",
-      "While Server Components are still evolving, they represent an exciting direction for React and web development in general. By blurring the line between client and server, they enable new patterns and optimizations that can significantly improve the performance and developer experience of modern web applications.",
-    ],
-    likes: 56,
+    content: `
+React Server Components represent a paradigm shift in how we build React applications. By allowing components to run on the server, they enable new patterns and optimizations that weren't possible before.
+
+In this deep dive, we'll explore what Server Components are, how they differ from traditional React components, and how they can improve the performance and user experience of your applications.
+
+One of the key benefits of Server Components is that they can access server-side resources directly, without the need for APIs or client-server communication. This means you can query databases, access the file system, or call internal services directly from your components.
+
+Another advantage is that Server Components don't increase your JavaScript bundle size. Since they run exclusively on the server, their code is never sent to the client, resulting in smaller bundles and faster load times.
+
+Next.js has embraced Server Components as a core part of its App Router architecture. By default, all components in the App Router are Server Components, unless explicitly marked as 'use client'. This approach encourages developers to think server-first and only move to the client when necessary.
+
+While Server Components are still evolving, they represent an exciting direction for React and web development in general. By blurring the line between client and server, they enable new patterns and optimizations that can significantly improve the performance and developer experience of modern web applications.
+    `.trim(),
   },
   {
-    userId: "yadonTastesGood",
+    author: "yadonTastesGood",
     slug: "typescript-best-practices",
     title: "TypeScript Best Practices for React Developers",
-    date: "2024-01-18",
+    createdAt: "2024-01-18",
+    updatedAt: "2024-01-18",
     excerpt:
       "Learn how to leverage TypeScript to write more maintainable and error-free React code.",
-    readingTime: 7,
     coverImage: "/placeholder.svg?height=600&width=1200",
-    content: [
-      "TypeScript has become an essential tool for React developers, providing type safety and improved developer experience. In this article, we'll explore best practices for using TypeScript with React to write more maintainable and error-free code.",
-      "One of the key benefits of TypeScript is its ability to catch errors at compile time rather than runtime. This is particularly valuable in React applications, where type errors can lead to unexpected behavior and poor user experience.",
-      "We'll start by looking at how to properly type props in React components. This is the foundation of type safety in React, as it ensures that components receive the data they expect and in the format they expect it.",
-      "Next, we'll explore more advanced topics like typing hooks, context, and event handlers. These are areas where TypeScript can provide significant benefits, but they also require a deeper understanding of both TypeScript and React.",
-      "Finally, we'll discuss strategies for gradually adopting TypeScript in existing React projects. This is a common scenario, and there are several approaches you can take to introduce TypeScript without disrupting your development workflow.",
-      "By following these best practices, you'll be able to leverage TypeScript to its full potential in your React projects, resulting in more robust, maintainable, and developer-friendly code.",
-    ],
-    likes: 19,
+    content: `
+TypeScript has become an essential tool for React developers, providing type safety and improved developer experience. In this article, we'll explore best practices for using TypeScript with React to write more maintainable and error-free code.
+
+One of the key benefits of TypeScript is its ability to catch errors at compile time rather than runtime. This is particularly valuable in React applications, where type errors can lead to unexpected behavior and poor user experience.
+
+We'll start by looking at how to properly type props in React components. This is the foundation of type safety in React, as it ensures that components receive the data they expect and in the format they expect it.
+
+Next, we'll explore more advanced topics like typing hooks, context, and event handlers. These are areas where TypeScript can provide significant benefits, but they also require a deeper understanding of both TypeScript and React.
+
+Finally, we'll discuss strategies for gradually adopting TypeScript in existing React projects. This is a common scenario, and there are several approaches you can take to introduce TypeScript without disrupting your development workflow.
+
+By following these best practices, you'll be able to leverage TypeScript to its full potential in your React projects, resulting in more robust, maintainable, and developer-friendly code.
+    `.trim(),
   },
   {
-    userId: "yadonTastesGood",
+    author: "yadonTastesGood",
     slug: "state-management-in-2024",
     title: "State Management in 2024: Beyond Redux",
-    date: "2024-02-25",
+    createdAt: "2024-02-25",
+    updatedAt: "2024-02-25",
     excerpt:
       "Explore modern approaches to state management in React applications and how they compare to traditional solutions like Redux.",
-    readingTime: 9,
     coverImage: "/placeholder.svg?height=600&width=1200",
-    content: [
-      "State management has always been a hot topic in the React community, and in 2024, we have more options than ever. In this article, we'll explore modern approaches to state management and how they compare to traditional solutions like Redux.",
-      "Redux has been the go-to state management library for React applications for many years, but it's no longer the only option. Libraries like Zustand, Jotai, and Recoil offer simpler APIs and better performance for many use cases.",
-      "We'll start by discussing the evolution of state management in React, from local component state to context to external libraries. Understanding this evolution will help you make better decisions about which approach to use in your projects.",
-      "Next, we'll dive into specific libraries and approaches, comparing their strengths, weaknesses, and ideal use cases. We'll also discuss how to combine different approaches to create a state management strategy that's tailored to your application's needs.",
-      "Finally, we'll look at emerging trends and future directions in state management. With the rise of Server Components and other new React features, the landscape of state management is continuing to evolve.",
-      "By the end of this article, you'll have a comprehensive understanding of the state management options available in 2024 and how to choose the right approach for your React applications.",
-    ],
-    likes: 35,
+    content: `
+State management has always been a hot topic in the React community, and in 2024, we have more options than ever. In this article, we'll explore modern approaches to state management and how they compare to traditional solutions like Redux.
+
+Redux has been the go-to state management library for React applications for many years, but it's no longer the only option. Libraries like Zustand, Jotai, and Recoil offer simpler APIs and better performance for many use cases.
+
+We'll start by discussing the evolution of state management in React, from local component state to context to external libraries. Understanding this evolution will help you make better decisions about which approach to use in your projects.
+
+Next, we'll dive into specific libraries and approaches, comparing their strengths, weaknesses, and ideal use cases. We'll also discuss how to combine different approaches to create a state management strategy that's tailored to your application's needs.
+
+Finally, we'll look at emerging trends and future directions in state management. With the rise of Server Components and other new React features, the landscape of state management is continuing to evolve.
+
+By the end of this article, you'll have a comprehensive understanding of the state management options available in 2024 and how to choose the right approach for your React applications.
+    `.trim(),
   },
   {
-    userId: "yadonTastesGood",
+    author: "yadonTastesGood",
     slug: "building-accessible-web-apps",
     title: "Building Accessible Web Applications: A Practical Guide",
-    date: "2024-03-10",
+    createdAt: "2024-03-10",
+    updatedAt: "2024-03-10",
     excerpt:
       "Learn how to make your web applications accessible to all users, including those with disabilities.",
-    readingTime: 8,
     coverImage: "/placeholder.svg?height=600&width=1200",
-    content: [
-      "Accessibility is a crucial aspect of web development that is often overlooked. In this practical guide, we'll explore how to make your web applications accessible to all users, including those with disabilities.",
-      "We'll start with the basics of web accessibility, including the WCAG guidelines and the concept of inclusive design. Understanding these foundations is essential for building truly accessible applications.",
-      "Next, we'll dive into specific techniques and best practices for making different types of UI components accessible. From forms and buttons to modals and navigation, we'll cover the most common components and how to ensure they work for all users.",
-      "We'll also discuss tools and testing strategies for accessibility. Automated testing can catch many issues, but manual testing with screen readers and other assistive technologies is equally important.",
-      "Finally, we'll explore how to integrate accessibility into your development workflow. By making accessibility a priority from the start, you can avoid the common pitfall of treating it as an afterthought.",
-      "Building accessible web applications is not just a legal or moral obligation—it's also good business. By making your applications accessible to all users, you expand your potential audience and create a better experience for everyone.",
-    ],
-    likes: 24,
+    content: `
+Accessibility is a crucial aspect of web development that is often overlooked. In this practical guide, we'll explore how to make your web applications accessible to all users, including those with disabilities.
+
+We'll start with the basics of web accessibility, including the WCAG guidelines and the concept of inclusive design. Understanding these foundations is essential for building truly accessible applications.
+
+Next, we'll dive into specific techniques and best practices for making different types of UI components accessible. From forms and buttons to modals and navigation, we'll cover the most common components and how to ensure they work for all users.
+
+We'll also discuss tools and testing strategies for accessibility. Automated testing can catch many issues, but manual testing with screen readers and other assistive technologies is equally important.
+
+Finally, we'll explore how to integrate accessibility into your development workflow. By making accessibility a priority from the start, you can avoid the common pitfall of treating it as an afterthought.
+
+Building accessible web applications is not just a legal or moral obligation—it's also good business. By making your applications accessible to all users, you expand your potential audience and create a better experience for everyone.
+    `.trim(),
   },
 ];
