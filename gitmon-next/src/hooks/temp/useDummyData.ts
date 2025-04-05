@@ -1,4 +1,4 @@
-import { Post } from "@components/Post/types";
+import { Post } from "@lib/types";
 
 const API_URL =
   process.env.NODE_ENV === "development"

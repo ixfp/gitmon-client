@@ -1,6 +1,5 @@
 import matter from "gray-matter";
 import { Post, PostMeta } from "./types";
-import { cookies } from "next/headers";
 
 export interface RepoInfo {
   id: string;
@@ -24,19 +23,13 @@ export async function fetchPost(fileUrl: string): Promise<Post> {
 export async function fetchPosts({ id, repo }: RepoInfo): Promise<Post[]> {
   const apiUrl = `https://api.github.com/repos/${id}/${repo}/contents`;
 
-  const token = (await cookies()).get("github_token")?.value;
-  const headers = token
-    ? {
-        Authorization: `token ${token}`,
-      }
-    : undefined;
-
   const res = await fetch(apiUrl, {
-    headers,
+    // headers,
   });
 
   if (!res.ok) {
     const error = await res.json();
+    console.error("Error fetching posts:", error);
 
     if (res.status === 404 && error?.message === "This repository is empty.") {
       console.warn("Repo is empty. Returning empty posts array.");

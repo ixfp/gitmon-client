@@ -6,7 +6,6 @@ import { Input } from "@components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
 import { Textarea } from "@components/ui/textarea";
 import { Card } from "@components/ui/card";
-import { toast } from "sonner";
 import { Toaster } from "@components/ui/sonner";
 import MarkdownPreview from "./markdown-preview";
 import ToolbarButton from "./toolbar-button";
@@ -27,39 +26,12 @@ import {
   ImageIcon,
 } from "lucide-react";
 import Link from "next/link";
-import matter from "gray-matter";
-import { useParams } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
 
-export default function MarkdownEditor() {
-  const { mutate } = useMutation({
-    mutationFn: async ({ title, blob }: { title: string; blob: Blob }) => {
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("content", blob, `${title.trim()}.md`);
+interface PostFormProps {
+  onPostSaved: (post: { title: string; content: string }) => void;
+}
 
-      const response = await fetch("/api/v1/posting", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
-          "Content-Type": "application/json",
-        },
-        body: formData,
-      });
-
-      if (!response.ok) {
-        toast("Failed to save the post");
-
-        throw new Error("Failed to save the post");
-      }
-      return response.json();
-    },
-    onSuccess: (res) => {
-      console.log(res);
-      toast("Your post has been saved");
-    },
-  });
-  const params = useParams();
+export function PostForm({ onPostSaved }: PostFormProps) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [showImageUploader, setShowImageUploader] = useState(false);
@@ -137,29 +109,6 @@ export default function MarkdownEditor() {
   const handleImageInsert = (imageUrl: string) => {
     insertTextAtCursor(`![Image](${imageUrl})`);
     setShowImageUploader(false);
-  };
-
-  const savePost = () => {
-    if (!title.trim()) {
-      toast("Please enter a title for your post");
-      return;
-    }
-    if (typeof params.id !== "string") {
-      toast("Invalid author ID");
-      return;
-    }
-
-    const metadata = {
-      title: title.trim(),
-      date: new Date().toISOString(),
-      author: params.id.replace("%40", ""),
-    };
-
-    const markdown = matter.stringify(content, metadata);
-
-    const blob = new Blob([markdown], { type: "text/markdown" });
-
-    mutate({ title, blob });
   };
 
   return (
@@ -261,7 +210,10 @@ export default function MarkdownEditor() {
             </Link>
           </Button>
 
-          <Button onClick={savePost} className="gap-2">
+          <Button
+            onClick={() => onPostSaved({ title, content })}
+            className="gap-2"
+          >
             <Save size={16} />
             Save Post
           </Button>
