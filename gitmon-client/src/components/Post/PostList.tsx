@@ -1,40 +1,40 @@
-import React from "react";
+import React from 'react'
 
-import type { Post } from "@lib/types";
-import Link from "next/link";
+import type { Post } from '@lib/types'
+import Link from 'next/link'
 
-import Image from "next/image";
-import { Calendar, ChevronRightIcon } from "lucide-react";
-import { cn, formatDate, titleToSlug } from "@lib/utils";
-import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
+import Image from 'next/image'
+import { Calendar, ChevronRightIcon } from 'lucide-react'
+import { cn, formatDate, titleToSlug } from '@lib/utils'
+import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar'
 
 interface PostListProps {
-  posts: Post[];
+  posts: Post[]
 }
 
 export function PostListItem({
   post,
-  variant = "default",
+  variant = 'default',
 }: {
-  post: Post;
-  variant?: "default" | "compact";
+  post: Post
+  variant?: 'default' | 'compact'
 }) {
-  console.log(post);
+  console.log(post)
 
-  const blogUrl = `/blog/@${post.author}/${titleToSlug(post.title)}`;
+  const blogUrl = `/blog/@${post.author}/${titleToSlug(post.title)}`
   return (
     <div
       className={cn(
-        "group flex flex-col overflow-hidden",
-        variant === "default"
-          ? "rounded-lg border bg-card shadow-sm transition-all hover:shadow-md"
-          : ""
+        'group flex flex-col overflow-hidden',
+        variant === 'default'
+          ? 'rounded-lg border bg-card shadow-sm transition-all hover:shadow-md'
+          : '',
       )}
     >
-      {variant === "default" && (
+      {variant === 'default' && (
         <Link href={blogUrl} className="aspect-video overflow-hidden">
           <Image
-            src={post.coverImage || "/placeholder.svg"}
+            src={post.coverImage || '/placeholder.svg'}
             alt={post.title}
             width={600}
             height={340}
@@ -45,19 +45,14 @@ export function PostListItem({
       <div className="flex flex-1 flex-col p-6">
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <Avatar className="size-8">
-            <AvatarImage
-              src="/placeholder.svg?height=40&width=40"
-              alt="Current User"
-            />
+            <AvatarImage src="/placeholder.svg?height=40&width=40" alt="Current User" />
             <AvatarFallback>CU</AvatarFallback>
           </Avatar>
           <span>{post.author}</span>
-          {variant === "default" && (
+          {variant === 'default' && (
             <>
               <Calendar className="h-4 w-4" />
-              <time dateTime={post.createdAt}>
-                {formatDate(post.createdAt)}
-              </time>
+              <time dateTime={post.createdAt}>{formatDate(post.createdAt)}</time>
             </>
           )}
         </div>
@@ -66,10 +61,8 @@ export function PostListItem({
             {post.title}
           </h2>
         </Link>
-        <p className="mt-2 line-clamp-3 flex-1 text-muted-foreground">
-          {post.excerpt}
-        </p>
-        {variant === "default" && (
+        <p className="mt-2 line-clamp-3 flex-1 text-muted-foreground">{post.excerpt}</p>
+        {variant === 'default' && (
           <Link
             href={blogUrl}
             className="mt-4 inline-flex items-center text-sm font-medium text-primary"
@@ -80,7 +73,7 @@ export function PostListItem({
         )}
       </div>
     </div>
-  );
+  )
 }
 
 export function PostList({ posts }: PostListProps) {
@@ -90,5 +83,5 @@ export function PostList({ posts }: PostListProps) {
         <PostListItem key={index} post={post} />
       ))}
     </div>
-  );
+  )
 }

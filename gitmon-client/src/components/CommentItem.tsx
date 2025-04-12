@@ -1,9 +1,9 @@
-import { formatDistanceToNow } from "date-fns";
-import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
-import type { Comment } from "@lib/types";
+import { formatDistanceToNow } from 'date-fns'
+import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar'
+import type { Comment } from '@lib/types'
 
 interface CommentItemProps {
-  comment: Comment;
+  comment: Comment
 }
 
 export function CommentItem({ comment }: CommentItemProps) {
@@ -25,5 +25,5 @@ export function CommentItem({ comment }: CommentItemProps) {
         <p className="text-sm">{comment.content}</p>
       </div>
     </div>
-  );
+  )
 }

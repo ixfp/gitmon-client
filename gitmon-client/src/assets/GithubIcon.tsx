@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 const GitHubIcon: React.FC<{ className?: string }> = ({ className }) => (
   <svg
@@ -13,6 +13,6 @@ const GitHubIcon: React.FC<{ className?: string }> = ({ className }) => (
       clipRule="evenodd"
     />
   </svg>
-);
+)
 
-export default GitHubIcon;
+export default GitHubIcon

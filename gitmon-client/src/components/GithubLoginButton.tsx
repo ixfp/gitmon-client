@@ -1,14 +1,14 @@
 'use client'
 
-import GitHubIcon from "@assets/GithubIcon"
+import GitHubIcon from '@assets/GithubIcon'
 
 function GithubLoginButton() {
   const handleLoginClick = () => {
     const githubAuthUrl = `https://api.gitmon.blog/api/v1/login/oauth/github
-`;
+`
 
-    window.location.href = githubAuthUrl;
-  };
+    window.location.href = githubAuthUrl
+  }
 
   return (
     <button
@@ -18,7 +18,7 @@ function GithubLoginButton() {
       <GitHubIcon className="h-5 w-5" />
       <span>Sign in with GitHub</span>
     </button>
-  );
+  )
 }
 
-export default GithubLoginButton;
+export default GithubLoginButton

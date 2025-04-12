@@ -1,70 +1,67 @@
-"use client";
+'use client'
 
-import type React from "react";
+import type React from 'react'
 
-import { useState } from "react";
-import { Button } from "@components/ui/button";
-import { Input } from "@components/ui/input";
-import { Label } from "@components/ui/label";
+import { useState } from 'react'
+import { Button } from '@components/ui/button'
+import { Input } from '@components/ui/input'
+import { Label } from '@components/ui/label'
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from "@components/ui/dialog";
-import { toast } from "sonner";
-import { Upload, LinkIcon } from "lucide-react";
-import Image from "next/image";
+} from '@components/ui/dialog'
+import { toast } from 'sonner'
+import { Upload, LinkIcon } from 'lucide-react'
+import Image from 'next/image'
 
 interface ImageUploaderProps {
-  onImageInsert: (imageUrl: string) => void;
-  onCancel: () => void;
+  onImageInsert: (imageUrl: string) => void
+  onCancel: () => void
 }
 
-export default function ImageUploader({
-  onImageInsert,
-  onCancel,
-}: ImageUploaderProps) {
-  const [uploadType, setUploadType] = useState<"file" | "url">("file");
-  const [imageUrl, setImageUrl] = useState("");
-  const [file, setFile] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+export default function ImageUploader({ onImageInsert, onCancel }: ImageUploaderProps) {
+  const [uploadType, setUploadType] = useState<'file' | 'url'>('file')
+  const [imageUrl, setImageUrl] = useState('')
+  const [file, setFile] = useState<File | null>(null)
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      const selectedFile = e.target.files[0];
-      setFile(selectedFile);
+      const selectedFile = e.target.files[0]
+      setFile(selectedFile)
 
       // Create a preview URL
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        setPreviewUrl(event.target?.result as string);
-      };
-      reader.readAsDataURL(selectedFile);
+      const reader = new FileReader()
+      reader.onload = event => {
+        setPreviewUrl(event.target?.result as string)
+      }
+      reader.readAsDataURL(selectedFile)
     }
-  };
+  }
 
   const handleInsert = () => {
-    if (uploadType === "url") {
+    if (uploadType === 'url') {
       if (!imageUrl.trim()) {
-        toast("Please enter an image URL");
-        return;
+        toast('Please enter an image URL')
+        return
       }
-      onImageInsert(imageUrl);
+      onImageInsert(imageUrl)
     } else {
       if (!file) {
-        toast("Please select an image file");
-        return;
+        toast('Please select an image file')
+        return
       }
 
       // In a real application, you would upload the file to a server
       // and get back a URL. For this demo, we'll use the preview URL.
       if (previewUrl) {
-        onImageInsert(previewUrl);
+        onImageInsert(previewUrl)
       }
     }
-  };
+  }
 
   return (
     <Dialog open={true} onOpenChange={() => onCancel()}>
@@ -76,16 +73,16 @@ export default function ImageUploader({
         <div className="grid gap-4 py-4">
           <div className="flex gap-4">
             <Button
-              variant={uploadType === "file" ? "default" : "outline"}
-              onClick={() => setUploadType("file")}
+              variant={uploadType === 'file' ? 'default' : 'outline'}
+              onClick={() => setUploadType('file')}
               className="flex-1 gap-2"
             >
               <Upload size={16} />
               Upload File
             </Button>
             <Button
-              variant={uploadType === "url" ? "default" : "outline"}
-              onClick={() => setUploadType("url")}
+              variant={uploadType === 'url' ? 'default' : 'outline'}
+              onClick={() => setUploadType('url')}
               className="flex-1 gap-2"
             >
               <LinkIcon size={16} />
@@ -93,20 +90,15 @@ export default function ImageUploader({
             </Button>
           </div>
 
-          {uploadType === "file" ? (
+          {uploadType === 'file' ? (
             <div className="grid gap-2">
               <Label htmlFor="image-upload">Select Image</Label>
-              <Input
-                id="image-upload"
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-              />
+              <Input id="image-upload" type="file" accept="image/*" onChange={handleFileChange} />
               {previewUrl && (
                 <div className="mt-2">
                   <p className="text-sm text-muted-foreground mb-1">Preview:</p>
                   <Image
-                    src={previewUrl || "/placeholder.svg"}
+                    src={previewUrl || '/placeholder.svg'}
                     alt="Preview"
                     className="max-h-[200px] max-w-full object-contain border rounded"
                   />
@@ -121,17 +113,17 @@ export default function ImageUploader({
                 type="url"
                 placeholder="https://example.com/image.jpg"
                 value={imageUrl}
-                onChange={(e) => setImageUrl(e.target.value)}
+                onChange={e => setImageUrl(e.target.value)}
               />
               {imageUrl && (
                 <div className="mt-2">
                   <p className="text-sm text-muted-foreground mb-1">Preview:</p>
                   <Image
-                    src={imageUrl || "/placeholder.svg"}
+                    src={imageUrl || '/placeholder.svg'}
                     alt="Preview"
                     className="max-h-[200px] max-w-full object-contain border rounded"
                     onError={() => {
-                      toast("Failed to load image from URL");
+                      toast('Failed to load image from URL')
                     }}
                   />
                 </div>
@@ -148,5 +140,5 @@ export default function ImageUploader({
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

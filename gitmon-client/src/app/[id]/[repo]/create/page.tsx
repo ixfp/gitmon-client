@@ -1,65 +1,56 @@
-"use client";
-import { useMutation } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
-import { toast } from "sonner";
+'use client'
+import { useMutation } from '@tanstack/react-query'
+import { useParams } from 'next/navigation'
+import { toast } from 'sonner'
 
-import { PostForm } from "@components/Post";
-import matter from "gray-matter";
+import { PostForm } from '@components/Post'
+import matter from 'gray-matter'
 
 export default function AddPost() {
-  const params = useParams();
+  const params = useParams()
   const { mutate } = useMutation({
     mutationFn: async ({ title, blob }: { title: string; blob: Blob }) => {
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("content", blob, `${title.trim()}.md`);
+      const formData = new FormData()
+      formData.append('title', title)
+      formData.append('content', blob, `${title.trim()}.md`)
       const token = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("github_token="))
-        ?.split("=")[1];
+        .split('; ')
+        .find(row => row.startsWith('github_token='))
+        ?.split('=')[1]
 
       const headers = token
         ? {
             Authorization: `Bearer ${token}`,
           }
-        : undefined;
+        : undefined
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_DOMAIN}/api/v1/posting`,
-        {
-          method: "POST",
-          headers,
-          body: formData,
-        }
-      );
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/v1/posting`, {
+        method: 'POST',
+        headers,
+        body: formData,
+      })
 
       if (!response.ok) {
-        toast("Failed to save the post");
+        toast('Failed to save the post')
 
-        throw new Error("Failed to save the post");
+        throw new Error('Failed to save the post')
       }
-      return response.json();
+      return response.json()
     },
-    onSuccess: (res) => {
-      console.log(res);
-      toast("Your post has been saved");
+    onSuccess: res => {
+      console.log(res)
+      toast('Your post has been saved')
     },
-  });
+  })
 
-  const handleSavePost = ({
-    title,
-    content,
-  }: {
-    title: string;
-    content: string;
-  }) => {
+  const handleSavePost = ({ title, content }: { title: string; content: string }) => {
     if (!title.trim()) {
-      toast("Please enter a title for your post");
-      return;
+      toast('Please enter a title for your post')
+      return
     }
-    if (typeof params.id !== "string") {
-      toast("Invalid author ID");
-      return;
+    if (typeof params.id !== 'string') {
+      toast('Invalid author ID')
+      return
     }
 
     const metadata = {
@@ -68,18 +59,18 @@ export default function AddPost() {
       updatedAt: new Date().toISOString(),
       pinned: false,
       tags: [],
-      author: params.id.replace("%40", ""),
-    };
+      author: params.id.replace('%40', ''),
+    }
 
-    const markdown = matter.stringify(content, metadata);
+    const markdown = matter.stringify(content, metadata)
 
-    const blob = new Blob([markdown], { type: "text/markdown" });
+    const blob = new Blob([markdown], { type: 'text/markdown' })
 
-    mutate({ title, blob });
-  };
+    mutate({ title, blob })
+  }
   return (
     <div className="p-4">
       <PostForm onPostSaved={handleSavePost} />
     </div>
-  );
+  )
 }
