@@ -36,8 +36,7 @@ const GitRouter = () => {
       if (!isRepoCreated) {
         window.location.href = `/create-repo`
       } else {
-        console.log(data)
-        // window.location.href = `/blog/123`
+        window.location.href = `/blog/123`
       }
     },
     onError: error => {
