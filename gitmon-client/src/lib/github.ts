@@ -8,7 +8,9 @@ export interface RepoInfo {
 }
 
 export async function fetchPost(fileUrl: string): Promise<Post> {
-  const res = await fetch(fileUrl)
+  const encodedUrl = encodeURI(fileUrl).replace(/\?/g, '%3F')
+
+  const res = await fetch(encodedUrl)
   if (!res.ok) throw new Error(`Failed to fetch: ${fileUrl}`)
 
   const rawMarkdown = await res.text()
