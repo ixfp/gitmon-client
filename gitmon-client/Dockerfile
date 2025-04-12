@@ -16,7 +16,7 @@ COPY . .
 RUN npm run build
 
 # Production stage
-FROM node:lts AS runtime
+FROM node:lts-alpine AS runtime
 
 WORKDIR /app
 
