@@ -1,27 +1,25 @@
-import Image from "next/image";
-import Link from "next/link";
-import { notFound } from "next/navigation";
-import { ArrowLeft, Calendar, LinkIcon, MessageSquare } from "lucide-react";
-import { blogPosts } from "@lib/data";
-import { formatDate, replaceId } from "@lib/utils";
-import { Separator } from "@components/ui/separator";
-import { CommentSection } from "./CommentSection";
-import { fetchPost } from "@lib/github";
-import { Button } from "@components/ui";
-import MarkdownRenderer from "@components/MarkdownRenderer";
+import Image from 'next/image'
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
+import { ArrowLeft, Calendar, LinkIcon, MessageSquare } from 'lucide-react'
+import { blogPosts } from '@lib/data'
+import { formatDate, replaceId } from '@lib/utils'
+import { Separator } from '@components/ui/separator'
+import { CommentSection } from './CommentSection'
+import { fetchPost } from '@lib/github'
+import { Button } from '@components/ui'
+import MarkdownRenderer from '@components/MarkdownRenderer'
 
 export default async function BlogPost({
   params,
 }: {
-  params: Promise<{ slug: string; id: string }>;
+  params: Promise<{ slug: string; id: string }>
 }) {
-  const { slug, id } = await params;
-  const post =
-    (await fetchPost(replaceId(id))) ||
-    blogPosts.find((post) => post.slug === slug);
+  const { slug, id } = await params
+  const post = (await fetchPost(replaceId(id))) || blogPosts.find(post => post.slug === slug)
 
   if (!post) {
-    notFound();
+    notFound()
   }
 
   return (
@@ -43,7 +41,7 @@ export default async function BlogPost({
             <div className="flex items-center gap-1">
               <Calendar className="h-4 w-4" />
               <time dateTime={post.createdAt || new Date().toISOString()}>
-                {post.createdAt ? formatDate(post.createdAt) : "Unknown date"}
+                {post.createdAt ? formatDate(post.createdAt) : 'Unknown date'}
               </time>
             </div>
             {/* <div className="flex items-center gap-1">
@@ -56,13 +54,13 @@ export default async function BlogPost({
             </div> */}
             <div className="flex items-center gap-1">
               <MessageSquare className="h-4 w-4" />
-              <span>{"3"} comments</span>
+              <span>{'3'} comments</span>
             </div>
           </div>
         </header>
 
         <Image
-          src={post.coverImage || "/placeholder.svg"}
+          src={post.coverImage || '/placeholder.svg'}
           alt={post.title}
           width={1200}
           height={630}
@@ -79,9 +77,7 @@ export default async function BlogPost({
             <LikeButton postSlug={slug} initialLikes={post.likes || 0} />
           </div> */}
           <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground">
-              Share this post:
-            </span>
+            <span className="text-sm text-muted-foreground">Share this post:</span>
             <Button variant="link">
               <LinkIcon></LinkIcon>
             </Button>
@@ -93,5 +89,5 @@ export default async function BlogPost({
         <CommentSection postSlug={slug} />
       </div>
     </article>
-  );
+  )
 }

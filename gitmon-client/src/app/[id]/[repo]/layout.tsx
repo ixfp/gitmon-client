@@ -1,19 +1,19 @@
-import Navbar from "@components/Navbar";
-import { ReactNode } from "react";
-import SearchSection from "./SearchSection";
-import { replaceId } from "@lib/utils";
+import Navbar from '@components/Navbar'
+import { ReactNode } from 'react'
+import SearchSection from './SearchSection'
+import { replaceId } from '@lib/utils'
 
 export default async function BlogLayout({
   params,
   children,
 }: {
   params: Promise<{
-    id: string;
-    repo: string;
-  }>;
-  children: ReactNode;
+    id: string
+    repo: string
+  }>
+  children: ReactNode
 }) {
-  const { id } = await params;
+  const { id } = await params
 
   return (
     <div className="h-dvh bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col">
@@ -26,5 +26,5 @@ export default async function BlogLayout({
         <p>© 2025 {replaceId(id)}</p>
       </footer>
     </div>
-  );
+  )
 }

@@ -1,3 +1,3 @@
-export * from "./Post";
-export * from "./PostList";
-export * from "./PostForm";
+export * from './Post'
+export * from './PostList'
+export * from './PostForm'

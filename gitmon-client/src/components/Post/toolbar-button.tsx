@@ -1,35 +1,21 @@
-"use client";
+'use client'
 
-import type { ReactNode } from "react";
-import { Button } from "@components/ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@components/ui/tooltip";
+import type { ReactNode } from 'react'
+import { Button } from '@components/ui/button'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@components/ui/tooltip'
 
 interface ToolbarButtonProps {
-  icon: ReactNode;
-  onClick: () => void;
-  tooltip: string;
+  icon: ReactNode
+  onClick: () => void
+  tooltip: string
 }
 
-export default function ToolbarButton({
-  icon,
-  onClick,
-  tooltip,
-}: ToolbarButtonProps) {
+export default function ToolbarButton({ icon, onClick, tooltip }: ToolbarButtonProps) {
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8"
-            onClick={onClick}
-          >
+          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={onClick}>
             {icon}
           </Button>
         </TooltipTrigger>
@@ -38,5 +24,5 @@ export default function ToolbarButton({
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
-  );
+  )
 }

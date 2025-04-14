@@ -1,15 +1,15 @@
-import type { Post } from "./types";
+import type { Post } from './types'
 
 export const blogPosts: Post[] = [
   {
-    author: "yadonTastesGood",
-    slug: "getting-started-with-nextjs",
-    title: "Getting Started with Next.js: A Comprehensive Guide",
-    createdAt: "2023-09-15",
-    updatedAt: "2023-09-15",
+    author: 'yadonTastesGood',
+    slug: 'getting-started-with-nextjs',
+    title: 'Getting Started with Next.js: A Comprehensive Guide',
+    createdAt: '2023-09-15',
+    updatedAt: '2023-09-15',
     excerpt:
-      "Learn how to build modern web applications with Next.js, the React framework for production.",
-    coverImage: "/placeholder.svg?height=600&width=1200",
+      'Learn how to build modern web applications with Next.js, the React framework for production.',
+    coverImage: '/placeholder.svg?height=600&width=1200',
     content: `
 Next.js has revolutionized the way developers build React applications. With its file-based routing, server-side rendering, and static site generation capabilities, it provides an excellent developer experience while ensuring optimal performance for end users.
 
@@ -23,14 +23,14 @@ Whether you're building a blog, an e-commerce site, or a complex web application
     `.trim(),
   },
   {
-    author: "yadonTastesGood",
-    slug: "mastering-tailwind-css",
-    title: "Mastering Tailwind CSS: From Basics to Advanced Techniques",
-    createdAt: "2023-10-22",
-    updatedAt: "2023-10-22",
+    author: 'yadonTastesGood',
+    slug: 'mastering-tailwind-css',
+    title: 'Mastering Tailwind CSS: From Basics to Advanced Techniques',
+    createdAt: '2023-10-22',
+    updatedAt: '2023-10-22',
     excerpt:
-      "Discover how to leverage Tailwind CSS to create beautiful, responsive user interfaces without writing custom CSS.",
-    coverImage: "/placeholder.svg?height=600&width=1200",
+      'Discover how to leverage Tailwind CSS to create beautiful, responsive user interfaces without writing custom CSS.',
+    coverImage: '/placeholder.svg?height=600&width=1200',
     content: `
 Tailwind CSS has gained immense popularity in recent years, and for good reason. Its utility-first approach allows developers to build custom designs without leaving their HTML, resulting in faster development cycles and more consistent UIs.
 
@@ -44,14 +44,14 @@ By the end of this article, you'll have a solid understanding of how to use Tail
     `.trim(),
   },
   {
-    author: "yadonTastesGood",
-    slug: "react-server-components",
-    title: "Understanding React Server Components: The Future of React",
-    createdAt: "2023-11-30",
-    updatedAt: "2023-11-30",
+    author: 'yadonTastesGood',
+    slug: 'react-server-components',
+    title: 'Understanding React Server Components: The Future of React',
+    createdAt: '2023-11-30',
+    updatedAt: '2023-11-30',
     excerpt:
-      "Explore how React Server Components are changing the way we think about building React applications.",
-    coverImage: "/placeholder.svg?height=600&width=1200",
+      'Explore how React Server Components are changing the way we think about building React applications.',
+    coverImage: '/placeholder.svg?height=600&width=1200',
     content: `
 React Server Components represent a paradigm shift in how we build React applications. By allowing components to run on the server, they enable new patterns and optimizations that weren't possible before.
 
@@ -67,14 +67,14 @@ While Server Components are still evolving, they represent an exciting direction
     `.trim(),
   },
   {
-    author: "yadonTastesGood",
-    slug: "typescript-best-practices",
-    title: "TypeScript Best Practices for React Developers",
-    createdAt: "2024-01-18",
-    updatedAt: "2024-01-18",
+    author: 'yadonTastesGood',
+    slug: 'typescript-best-practices',
+    title: 'TypeScript Best Practices for React Developers',
+    createdAt: '2024-01-18',
+    updatedAt: '2024-01-18',
     excerpt:
-      "Learn how to leverage TypeScript to write more maintainable and error-free React code.",
-    coverImage: "/placeholder.svg?height=600&width=1200",
+      'Learn how to leverage TypeScript to write more maintainable and error-free React code.',
+    coverImage: '/placeholder.svg?height=600&width=1200',
     content: `
 TypeScript has become an essential tool for React developers, providing type safety and improved developer experience. In this article, we'll explore best practices for using TypeScript with React to write more maintainable and error-free code.
 
@@ -90,14 +90,14 @@ By following these best practices, you'll be able to leverage TypeScript to its 
     `.trim(),
   },
   {
-    author: "yadonTastesGood",
-    slug: "state-management-in-2024",
-    title: "State Management in 2024: Beyond Redux",
-    createdAt: "2024-02-25",
-    updatedAt: "2024-02-25",
+    author: 'yadonTastesGood',
+    slug: 'state-management-in-2024',
+    title: 'State Management in 2024: Beyond Redux',
+    createdAt: '2024-02-25',
+    updatedAt: '2024-02-25',
     excerpt:
-      "Explore modern approaches to state management in React applications and how they compare to traditional solutions like Redux.",
-    coverImage: "/placeholder.svg?height=600&width=1200",
+      'Explore modern approaches to state management in React applications and how they compare to traditional solutions like Redux.',
+    coverImage: '/placeholder.svg?height=600&width=1200',
     content: `
 State management has always been a hot topic in the React community, and in 2024, we have more options than ever. In this article, we'll explore modern approaches to state management and how they compare to traditional solutions like Redux.
 
@@ -113,14 +113,14 @@ By the end of this article, you'll have a comprehensive understanding of the sta
     `.trim(),
   },
   {
-    author: "yadonTastesGood",
-    slug: "building-accessible-web-apps",
-    title: "Building Accessible Web Applications: A Practical Guide",
-    createdAt: "2024-03-10",
-    updatedAt: "2024-03-10",
+    author: 'yadonTastesGood',
+    slug: 'building-accessible-web-apps',
+    title: 'Building Accessible Web Applications: A Practical Guide',
+    createdAt: '2024-03-10',
+    updatedAt: '2024-03-10',
     excerpt:
-      "Learn how to make your web applications accessible to all users, including those with disabilities.",
-    coverImage: "/placeholder.svg?height=600&width=1200",
+      'Learn how to make your web applications accessible to all users, including those with disabilities.',
+    coverImage: '/placeholder.svg?height=600&width=1200',
     content: `
 Accessibility is a crucial aspect of web development that is often overlooked. In this practical guide, we'll explore how to make your web applications accessible to all users, including those with disabilities.
 
@@ -135,4 +135,4 @@ Finally, we'll explore how to integrate accessibility into your development work
 Building accessible web applications is not just a legal or moral obligation—it's also good business. By making your applications accessible to all users, you expand your potential audience and create a better experience for everyone.
     `.trim(),
   },
-];
+]

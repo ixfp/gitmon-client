@@ -1,12 +1,12 @@
-import { useCallback } from "react";
-import { toast } from "sonner";
+import { useCallback } from 'react'
+import { toast } from 'sonner'
 
 const useToast = () => {
   const showToast = useCallback((message: string) => {
-    toast(message, {});
-  }, []);
+    toast(message, {})
+  }, [])
 
-  return { showToast };
-};
+  return { showToast }
+}
 
-export default useToast;
+export default useToast

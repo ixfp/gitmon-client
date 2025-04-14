@@ -1,15 +1,15 @@
-"use client";
+'use client'
 
-import { useState, useRef, useCallback } from "react";
-import { Button } from "@components/ui/button";
-import { Input } from "@components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
-import { Textarea } from "@components/ui/textarea";
-import { Card } from "@components/ui/card";
-import { Toaster } from "@components/ui/sonner";
-import MarkdownPreview from "./markdown-preview";
-import ToolbarButton from "./toolbar-button";
-import ImageUploader from "./image-uploader";
+import { useState, useRef, useCallback } from 'react'
+import { Button } from '@components/ui/button'
+import { Input } from '@components/ui/input'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/tabs'
+import { Textarea } from '@components/ui/textarea'
+import { Card } from '@components/ui/card'
+import { Toaster } from '@components/ui/sonner'
+import MarkdownPreview from './markdown-preview'
+import ToolbarButton from './toolbar-button'
+import ImageUploader from './image-uploader'
 import {
   Bold,
   Italic,
@@ -24,94 +24,90 @@ import {
   Save,
   CornerDownLeft,
   ImageIcon,
-} from "lucide-react";
-import Link from "next/link";
-import { useParams } from "next/navigation";
+} from 'lucide-react'
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
 
 interface PostFormProps {
-  onPostSaved: (post: { title: string; content: string }) => void;
+  onPostSaved: (post: { title: string; content: string }) => void
 }
 
 export function PostForm({ onPostSaved }: PostFormProps) {
-  const params = useParams();
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [showImageUploader, setShowImageUploader] = useState(false);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const params = useParams()
+  const [title, setTitle] = useState('')
+  const [content, setContent] = useState('')
+  const [showImageUploader, setShowImageUploader] = useState(false)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   const insertTextAtCursor = useCallback(
-    (textBefore: string, textAfter = "") => {
-      if (!textareaRef.current) return;
+    (textBefore: string, textAfter = '') => {
+      if (!textareaRef.current) return
 
-      const textarea = textareaRef.current;
-      const start = textarea.selectionStart;
-      const end = textarea.selectionEnd;
-      const selectedText = content.substring(start, end);
+      const textarea = textareaRef.current
+      const start = textarea.selectionStart
+      const end = textarea.selectionEnd
+      const selectedText = content.substring(start, end)
 
       const newText =
-        content.substring(0, start) +
-        textBefore +
-        selectedText +
-        textAfter +
-        content.substring(end);
+        content.substring(0, start) + textBefore + selectedText + textAfter + content.substring(end)
 
-      setContent(newText);
+      setContent(newText)
 
       setTimeout(() => {
-        textarea.focus();
+        textarea.focus()
         textarea.setSelectionRange(
           start + textBefore.length,
-          start + textBefore.length + selectedText.length
-        );
-      }, 0);
+          start + textBefore.length + selectedText.length,
+        )
+      }, 0)
     },
-    [content]
-  );
+    [content],
+  )
 
   const handleFormatClick = (format: string) => {
     switch (format) {
-      case "bold":
-        insertTextAtCursor("**", "**");
-        break;
-      case "italic":
-        insertTextAtCursor("_", "_");
-        break;
-      case "h1":
-        insertTextAtCursor("# ");
-        break;
-      case "h2":
-        insertTextAtCursor("## ");
-        break;
-      case "h3":
-        insertTextAtCursor("### ");
-        break;
-      case "ul":
-        insertTextAtCursor("- ");
-        break;
-      case "ol":
-        insertTextAtCursor("1. ");
-        break;
-      case "quote":
-        insertTextAtCursor("> ");
-        break;
-      case "code":
-        insertTextAtCursor("```\n", "\n```");
-        break;
-      case "link":
-        insertTextAtCursor("[", "](url)");
-        break;
-      case "image":
-        setShowImageUploader(true);
-        break;
+      case 'bold':
+        insertTextAtCursor('**', '**')
+        break
+      case 'italic':
+        insertTextAtCursor('_', '_')
+        break
+      case 'h1':
+        insertTextAtCursor('# ')
+        break
+      case 'h2':
+        insertTextAtCursor('## ')
+        break
+      case 'h3':
+        insertTextAtCursor('### ')
+        break
+      case 'ul':
+        insertTextAtCursor('- ')
+        break
+      case 'ol':
+        insertTextAtCursor('1. ')
+        break
+      case 'quote':
+        insertTextAtCursor('> ')
+        break
+      case 'code':
+        insertTextAtCursor('```\n', '\n```')
+        break
+      case 'link':
+        insertTextAtCursor('[', '](url)')
+        break
+      case 'image':
+        setShowImageUploader(true)
+        break
       default:
-        break;
+        break
     }
-  };
+  }
 
   const handleImageInsert = (imageUrl: string) => {
-    insertTextAtCursor(`![Image](${imageUrl})`);
-    setShowImageUploader(false);
-  };
+    insertTextAtCursor(`![Image](${imageUrl})`)
+    setShowImageUploader(false)
+  }
 
   return (
     <div className="space-y-6">
@@ -119,64 +115,64 @@ export function PostForm({ onPostSaved }: PostFormProps) {
         <Input
           placeholder="Post Title"
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={e => setTitle(e.target.value)}
           className="text-xl font-semibold"
         />
 
         <div className="flex flex-wrap gap-1 border rounded-md p-1 bg-muted/30">
           <ToolbarButton
             icon={<Bold size={18} />}
-            onClick={() => handleFormatClick("bold")}
+            onClick={() => handleFormatClick('bold')}
             tooltip="Bold"
           />
           <ToolbarButton
             icon={<Italic size={18} />}
-            onClick={() => handleFormatClick("italic")}
+            onClick={() => handleFormatClick('italic')}
             tooltip="Italic"
           />
           <ToolbarButton
             icon={<Heading1 size={18} />}
-            onClick={() => handleFormatClick("h1")}
+            onClick={() => handleFormatClick('h1')}
             tooltip="Heading 1"
           />
           <ToolbarButton
             icon={<Heading2 size={18} />}
-            onClick={() => handleFormatClick("h2")}
+            onClick={() => handleFormatClick('h2')}
             tooltip="Heading 2"
           />
           <ToolbarButton
             icon={<Heading3 size={18} />}
-            onClick={() => handleFormatClick("h3")}
+            onClick={() => handleFormatClick('h3')}
             tooltip="Heading 3"
           />
           <ToolbarButton
             icon={<List size={18} />}
-            onClick={() => handleFormatClick("ul")}
+            onClick={() => handleFormatClick('ul')}
             tooltip="Bullet List"
           />
           <ToolbarButton
             icon={<ListOrdered size={18} />}
-            onClick={() => handleFormatClick("ol")}
+            onClick={() => handleFormatClick('ol')}
             tooltip="Numbered List"
           />
           <ToolbarButton
             icon={<Quote size={18} />}
-            onClick={() => handleFormatClick("quote")}
+            onClick={() => handleFormatClick('quote')}
             tooltip="Quote"
           />
           <ToolbarButton
             icon={<Code size={18} />}
-            onClick={() => handleFormatClick("code")}
+            onClick={() => handleFormatClick('code')}
             tooltip="Code Block"
           />
           <ToolbarButton
             icon={<LinkIcon size={18} />}
-            onClick={() => handleFormatClick("link")}
+            onClick={() => handleFormatClick('link')}
             tooltip="Link"
           />
           <ToolbarButton
             icon={<ImageIcon size={18} />}
-            onClick={() => handleFormatClick("image")}
+            onClick={() => handleFormatClick('image')}
             tooltip="Image"
           />
         </div>
@@ -192,7 +188,7 @@ export function PostForm({ onPostSaved }: PostFormProps) {
             ref={textareaRef}
             placeholder="Write your post content in markdown..."
             value={content}
-            onChange={(e) => setContent(e.target.value)}
+            onChange={e => setContent(e.target.value)}
             className="min-h-[400px] font-mono text-sm resize-y"
           />
         </TabsContent>
@@ -212,10 +208,7 @@ export function PostForm({ onPostSaved }: PostFormProps) {
             </Link>
           </Button>
 
-          <Button
-            onClick={() => onPostSaved({ title, content })}
-            className="gap-2"
-          >
+          <Button onClick={() => onPostSaved({ title, content })} className="gap-2">
             <Save size={16} />
             Save Post
           </Button>
@@ -231,5 +224,5 @@ export function PostForm({ onPostSaved }: PostFormProps) {
 
       <Toaster />
     </div>
-  );
+  )
 }
