@@ -19,9 +19,7 @@ export function PostListItem({
   post: Post
   variant?: 'default' | 'compact'
 }) {
-  console.log(post)
-
-  const blogUrl = `/blog/@${post.author}/${titleToSlug(post.title)}`
+  const blogUrl = `/@${post.author}/${post.repo}/${post.slug}`
   return (
     <div
       className={cn(

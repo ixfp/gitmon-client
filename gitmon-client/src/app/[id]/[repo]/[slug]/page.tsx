@@ -1,22 +1,23 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, Calendar, LinkIcon, MessageSquare } from 'lucide-react'
-import { blogPosts } from '@lib/data'
+import { ArrowLeft, Calendar, Clock, LinkIcon, MessageSquare } from 'lucide-react'
 import { formatDate, replaceId } from '@lib/utils'
 import { Separator } from '@components/ui/separator'
 import { CommentSection } from './CommentSection'
-import { fetchPost } from '@lib/github'
-import { Button } from '@components/ui'
+import { fetchPost, getFileURL } from '@lib/github'
 import MarkdownRenderer from '@components/MarkdownRenderer'
+import { ShareButton } from '@components/ShareButton'
+import { LikeButton } from '@components/LikeButton'
 
 export default async function BlogPost({
   params,
 }: {
-  params: Promise<{ slug: string; id: string }>
+  params: Promise<{ slug: string; id: string; repo: string }>
 }) {
-  const { slug, id } = await params
-  const post = (await fetchPost(replaceId(id))) || blogPosts.find(post => post.slug === slug)
+  const { slug, id, repo } = await params
+  const fileURL = await getFileURL({ id: replaceId(id), repo }, `${slug}.md`)
+  const post = await fetchPost(fileURL)
 
   if (!post) {
     notFound()
@@ -25,7 +26,7 @@ export default async function BlogPost({
   return (
     <article className="container mx-auto px-4 py-12">
       <Link
-        href={`/blog/@${replaceId(id)}`}
+        href={`/@${replaceId(id)}/${repo}`}
         className="mb-8 inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground"
       >
         <ArrowLeft className="mr-2 h-4 w-4" />
@@ -44,14 +45,6 @@ export default async function BlogPost({
                 {post.createdAt ? formatDate(post.createdAt) : 'Unknown date'}
               </time>
             </div>
-            {/* <div className="flex items-center gap-1">
-              <Clock className="h-4 w-4" />
-              <span>
-                {post.readingTime
-                  ? `${post.readingTime} min read`
-                  : "Unknown reading time"}
-              </span>
-            </div> */}
             <div className="flex items-center gap-1">
               <MessageSquare className="h-4 w-4" />
               <span>{'3'} comments</span>
@@ -73,14 +66,12 @@ export default async function BlogPost({
         </div>
 
         <div className="mt-8 flex items-center justify-between">
-          {/* <div className="flex items-center gap-4">
-            <LikeButton postSlug={slug} initialLikes={post.likes || 0} />
-          </div> */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
+            <LikeButton postSlug={slug} initialLikes={0} />
+          </div>
+          <div className="flex items-center">
             <span className="text-sm text-muted-foreground">Share this post:</span>
-            <Button variant="link">
-              <LinkIcon></LinkIcon>
-            </Button>
+            <ShareButton path={`/@${post.author}/${post.repo}/${post.slug}`} />
           </div>
         </div>
 
