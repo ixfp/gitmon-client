@@ -14,10 +14,14 @@ export default function SetRepositoryName() {
 
   const { mutate } = useMutation({
     mutationFn: async (repoName: string) => {
-      const response = await fetch('https://api.gitmon.blog/api/v1/member/repo', {
+      const token = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('github_token='))
+        ?.split('=')[1]
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/v1/member/repo`, {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ name: repoName }),
