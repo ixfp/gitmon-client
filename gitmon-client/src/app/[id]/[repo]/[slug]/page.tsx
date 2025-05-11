@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, Calendar, Clock, LinkIcon, MessageSquare } from 'lucide-react'
+import { ArrowLeft, Calendar, MessageSquare } from 'lucide-react'
 import { formatDate, replaceId } from '@lib/utils'
 import { Separator } from '@components/ui/separator'
 import { CommentSection } from './CommentSection'
