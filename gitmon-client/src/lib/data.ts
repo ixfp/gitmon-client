@@ -3,6 +3,7 @@ import type { Post } from './types'
 export const blogPosts: Post[] = [
   {
     author: 'yadonTastesGood',
+    repo: '123321',
     slug: 'getting-started-with-nextjs',
     title: 'Getting Started with Next.js: A Comprehensive Guide',
     createdAt: '2023-09-15',
@@ -24,6 +25,7 @@ Whether you're building a blog, an e-commerce site, or a complex web application
   },
   {
     author: 'yadonTastesGood',
+    repo: '123321',
     slug: 'mastering-tailwind-css',
     title: 'Mastering Tailwind CSS: From Basics to Advanced Techniques',
     createdAt: '2023-10-22',
@@ -45,6 +47,7 @@ By the end of this article, you'll have a solid understanding of how to use Tail
   },
   {
     author: 'yadonTastesGood',
+    repo: '123321',
     slug: 'react-server-components',
     title: 'Understanding React Server Components: The Future of React',
     createdAt: '2023-11-30',
@@ -68,6 +71,7 @@ While Server Components are still evolving, they represent an exciting direction
   },
   {
     author: 'yadonTastesGood',
+    repo: '123321',
     slug: 'typescript-best-practices',
     title: 'TypeScript Best Practices for React Developers',
     createdAt: '2024-01-18',
@@ -91,6 +95,7 @@ By following these best practices, you'll be able to leverage TypeScript to its 
   },
   {
     author: 'yadonTastesGood',
+    repo: '123321',
     slug: 'state-management-in-2024',
     title: 'State Management in 2024: Beyond Redux',
     createdAt: '2024-02-25',
@@ -114,6 +119,7 @@ By the end of this article, you'll have a comprehensive understanding of the sta
   },
   {
     author: 'yadonTastesGood',
+    repo: '123321',
     slug: 'building-accessible-web-apps',
     title: 'Building Accessible Web Applications: A Practical Guide',
     createdAt: '2024-03-10',
