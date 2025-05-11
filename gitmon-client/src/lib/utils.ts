@@ -22,7 +22,7 @@ export function slugToTitle(slug: string): string {
 }
 
 export function titleToSlug(title: string): string {
-  return encodeURIComponent(title.toLowerCase().replace(/\s/g, '-'))
+  return title.toLowerCase().replace(/\s/g, '-').toLowerCase()
 }
 
 export function replaceId(id: string): string {

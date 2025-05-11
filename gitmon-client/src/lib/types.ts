@@ -11,6 +11,7 @@ export interface PostWithServerData extends Post {
 export interface PostMeta {
   title: string
   author: string
+  repo: string
   slug: string
   createdAt: string
   updatedAt: string

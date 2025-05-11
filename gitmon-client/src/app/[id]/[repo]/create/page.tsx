@@ -1,18 +1,22 @@
 'use client'
 import { useMutation } from '@tanstack/react-query'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
 import { PostForm } from '@components/Post'
 import matter from 'gray-matter'
+import { titleToSlug } from '@lib/utils'
+import { PostMeta } from '@lib/types'
 
 export default function AddPost() {
   const params = useParams()
+  const router = useRouter()
   const { mutate } = useMutation({
     mutationFn: async ({ title, blob }: { title: string; blob: Blob }) => {
       const formData = new FormData()
-      formData.append('title', title)
-      formData.append('content', blob, `${title.trim()}.md`)
+      const fileName = titleToSlug(title)
+      formData.append('title', fileName)
+      formData.append('content', blob, fileName)
       const token = document.cookie
         .split('; ')
         .find(row => row.startsWith('github_token='))
@@ -37,9 +41,9 @@ export default function AddPost() {
       }
       return response.json()
     },
-    onSuccess: res => {
-      console.log(res)
+    onSuccess: (_res, { title }) => {
       toast('Your post has been saved')
+      router.push(`/${params.id}/${params.repo}/${titleToSlug(title)}`)
     },
   })
 
@@ -53,8 +57,12 @@ export default function AddPost() {
       return
     }
 
-    const metadata = {
+    const metadata: PostMeta = {
       title: title.trim(),
+      slug: titleToSlug(title),
+      repo: typeof params.repo === 'string' ? params.repo : '',
+      excerpt: content.slice(0, 100),
+      coverImage: '',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       pinned: false,

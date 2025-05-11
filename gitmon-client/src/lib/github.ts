@@ -22,6 +22,22 @@ export async function fetchPost(fileUrl: string): Promise<Post> {
   return { ...data, content }
 }
 
+export async function getFileURL({ id, repo }: RepoInfo, fileName: string): Promise<string> {
+  const apiUrl = `https://api.github.com/repos/${id}/${repo}/contents/${fileName}`
+  const res = await fetch(apiUrl, {
+    // headers,
+  })
+
+  if (!res.ok) {
+    const error = await res.json()
+    console.error('Error fetching file URL:', error)
+    throw new Error(`Failed to fetch file URL: ${error?.message}`)
+  }
+
+  const { download_url } = await res.json()
+  return download_url
+}
+
 export async function fetchPosts({ id, repo }: RepoInfo): Promise<Post[]> {
   const apiUrl = `https://api.github.com/repos/${id}/${repo}/contents`
 

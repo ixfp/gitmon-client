@@ -6,7 +6,6 @@ import { Input } from '@components/ui/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/tabs'
 import { Textarea } from '@components/ui/textarea'
 import { Card } from '@components/ui/card'
-import { Toaster } from '@components/ui/sonner'
 import MarkdownPreview from './markdown-preview'
 import ToolbarButton from './toolbar-button'
 import ImageUploader from './image-uploader'
@@ -221,8 +220,6 @@ export function PostForm({ onPostSaved }: PostFormProps) {
           onCancel={() => setShowImageUploader(false)}
         />
       )}
-
-      <Toaster />
     </div>
   )
 }

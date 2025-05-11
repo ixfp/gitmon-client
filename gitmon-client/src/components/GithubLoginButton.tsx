@@ -4,10 +4,12 @@ import GitHubIcon from '@assets/GithubIcon'
 
 function GithubLoginButton() {
   const handleLoginClick = () => {
-    const githubAuthUrl = `https://api.gitmon.blog/api/v1/login/oauth/github
-`
+    const endpointUrl = new URL(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/v1/login/oauth/github`)
+    if (process.env.NODE_ENV === 'development') {
+      endpointUrl.searchParams.set('profile', 'dev')
+    }
 
-    window.location.href = githubAuthUrl
+    window.location.href = endpointUrl.toString()
   }
 
   return (
