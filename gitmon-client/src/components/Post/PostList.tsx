@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 import Image from 'next/image'
 import { Calendar, ChevronRightIcon } from 'lucide-react'
-import { cn, formatDate, titleToSlug } from '@lib/utils'
+import { cn, formatDate } from '@lib/utils'
 import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar'
 
 interface PostListProps {
