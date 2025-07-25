@@ -18,13 +18,7 @@ async function BlogMain({ params }: { params: Promise<{ id: string; repo: string
     )
   }
 
-  return (
-    <div className="container mx-auto flex gap-8 h-full">
-      <div className="px-4 py-12 h-full overflow-auto">
-        <PostList posts={posts} />
-      </div>
-    </div>
-  )
+  return <PostList posts={posts} />
 }
 
 export default BlogMain
