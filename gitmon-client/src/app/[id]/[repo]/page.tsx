@@ -1,6 +1,6 @@
 import { PostList } from '@components/Post'
 import { fetchPost } from '@lib/github'
-import { Post } from '@lib/types';
+import { Post } from '@lib/types'
 import { replaceId } from '@lib/utils'
 
 async function BlogMain({ params }: { params: Promise<{ id: string; repo: string }> }) {
