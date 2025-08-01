@@ -12,6 +12,12 @@ interface PostListProps {
 }
 
 export function PostListItem({ post }: { post: Post }) {
+  if (!post.error) {
+    return (
+      <div className="p-8 text-center text-gray-500">글을 불러오는 중 오류가 발생했습니다.</div>
+    )
+  }
+
   const blogUrl =
     post.author && post.repo && post.slug ? `/@${post.author}/${post.repo}/${post.slug}` : '#'
   return (

@@ -1,5 +1,6 @@
 export interface Post extends PostMeta {
   content: string
+  error?: boolean
 }
 
 export interface PostWithServerData extends Post {

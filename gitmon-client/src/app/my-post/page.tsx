@@ -1,5 +1,6 @@
 import { PostList } from '@components/Post'
 import { fetchPost } from '@lib/github'
+import { Post } from '@lib/types'
 import { cookies } from 'next/headers'
 
 async function BlogMain() {
@@ -37,7 +38,7 @@ async function BlogMain() {
     )
   }
 
-  const posts = urlPosts.map(
+  const posts: Promise<Post>[] = urlPosts.map(
     async (post: {
       id: number
       title: string
@@ -45,7 +46,12 @@ async function BlogMain() {
       createdAt: string
       updatedAt: string
     }) => {
-      return await fetchPost(post.githubDownloadUrl)
+      try {
+        return await fetchPost(post.githubDownloadUrl)
+      } catch (error) {
+        console.error(`Failed to fetch post ${post.id}:`, error)
+        return { ...post, error: true }
+      }
     },
   )
 
