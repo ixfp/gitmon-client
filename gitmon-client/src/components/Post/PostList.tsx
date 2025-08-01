@@ -12,7 +12,8 @@ interface PostListProps {
 }
 
 export function PostListItem({ post }: { post: Post }) {
-  const blogUrl = `/@${post.author}/${post.repo}/${post.slug}`
+  const blogUrl =
+    post.author && post.repo && post.slug ? `/@${post.author}/${post.repo}/${post.slug}` : '#'
   return (
     <Link href={blogUrl} className="group flex flex-col gap-8 border-b last:border-none p-4 pb-8">
       <div className="flex flex-1 flex-col gap-4">
@@ -21,15 +22,19 @@ export function PostListItem({ post }: { post: Post }) {
             <AvatarImage src="/placeholder.svg?height=40&width=40" alt="Current User" />
             <AvatarFallback>CU</AvatarFallback>
           </Avatar>
-          <span>{post.author}</span>
+          <span>{post.author ? post.author : 'Unknown Author'}</span>
         </div>
-        <time className="" dateTime={post.createdAt}>
-          {formatDate(post.createdAt)}
-        </time>
+        {post.createdAt ? (
+          <time className="" dateTime={post.createdAt}>
+            {formatDate(post.createdAt)}
+          </time>
+        ) : (
+          <span className="text-muted-foreground">날짜 없음</span>
+        )}
       </div>
       <div className="flex flex-col gap-6">
-        <h2 className="font-bold text-4xl">{post.title}</h2>
-        <p className="text-lg">{post.excerpt}</p>
+        <h2 className="font-bold text-4xl">{post.title ? post.title : '제목 없음'}</h2>
+        <p className="text-lg">{post.excerpt ? post.excerpt : '설명 없음'}</p>
       </div>
       <div className="flex gap-2">
         <Badge variant="secondary">Tags</Badge>
