@@ -3,8 +3,17 @@ import React from 'react'
 import '@styles/landing.css'
 import Image from 'next/image'
 import GithubLoginButton from '@components/GithubLoginButton'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 
-function Landing() {
+async function Landing() {
+  const cookieStore = await cookies()
+  const token = cookieStore.get('github_token')?.value
+
+  if (token) {
+    redirect('/my-post')
+  }
+
   return (
     <div className="flex flex-col items-center">
       <a
