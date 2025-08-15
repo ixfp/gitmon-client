@@ -40,9 +40,11 @@ export default function AddPost() {
       }
       return response.json()
     },
-    onSuccess: (_res, { title }) => {
+    onSuccess: async res => {
+      const { data } = await res.json()
+
       toast('게시글이 저장되었습니다.')
-      router.push(`/${user?.id}/${user?.repo}/${titleToSlug(title)}`)
+      router.push(`/${user?.id}/${user?.repo}/${data.id}`)
     },
   })
 
