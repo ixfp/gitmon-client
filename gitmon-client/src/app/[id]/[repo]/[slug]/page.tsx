@@ -32,7 +32,17 @@ export default async function BlogPost({
 
   const { data } = await res.json()
 
-  const post = await fetchPost(data.githubDownloadUrl)
+  if (!data?.githubDownloadUrl) {
+    return (
+      <div>
+        해당 포스트를 찾을 수 없습니다. <br />
+        <Link href={`/@${replaceId(id)}/${repo}`} className="text-blue-500 hover:underline">
+          다른 포스트 보기
+        </Link>
+      </div>
+    )
+  }
+  const post = await fetchPost(data?.githubDownloadUrl)
 
   if (!post) {
     return (
