@@ -1,10 +1,8 @@
-// app/pages/SetRepositoryName.tsx (or SetRepositoryName.jsx)
 'use client'
 
 import { useState } from 'react'
 import { Input } from '@components/ui/input'
 import { Button } from '@components/ui/button'
-// import { Card, CardContent } from "@components/ui/card";
 import { Label } from '@components/ui/label'
 import { useMutation } from '@tanstack/react-query'
 
@@ -33,9 +31,8 @@ export default function SetRepositoryName() {
         return data
       }
     },
-    onSuccess: data => {
-      const { userName = 123 } = data
-      window.location.href = `/blog/${userName}`
+    onSuccess: () => {
+      window.location.href = '/my-post'
     },
     onError: error => {
       console.error('Authentication failed:', error)
