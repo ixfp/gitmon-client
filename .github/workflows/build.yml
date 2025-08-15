@@ -1,13 +1,17 @@
-name: Lint Check
+name: Build Test
 
 on:
   pull_request:
     branches:
       - main
       - develop
+  push:
+    branches:
+      - main
+      - develop
 
 jobs:
-  lint:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,6 +34,14 @@ jobs:
         run: pnpm install --frozen-lockfile
         working-directory: gitmon-client
 
-      - name: Run ESLint Check
-        run: pnpm lint
+      - name: Build Project
+        run: pnpm build
         working-directory: gitmon-client
+
+      - name: Upload Build Artifacts
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: gitmon-client/.next/
+          retention-days: 1
