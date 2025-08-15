@@ -1,4 +1,5 @@
 export interface Post extends PostMeta {
+  id: string
   content: string
   error?: boolean
 }

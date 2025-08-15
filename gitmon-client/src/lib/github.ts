@@ -7,7 +7,7 @@ export interface RepoInfo {
   branch?: string
 }
 
-export async function fetchPost(fileUrl: string): Promise<Post> {
+export async function fetchPost(fileUrl: string): Promise<Omit<Post, 'id'>> {
   const encodedUrl = encodeURI(fileUrl).replace(/\?/g, '%3F')
 
   const res = await fetch(encodedUrl)
@@ -20,64 +20,4 @@ export async function fetchPost(fileUrl: string): Promise<Post> {
   }
 
   return { ...data, content }
-}
-
-export async function getFileURL({ id, repo }: RepoInfo, fileName: string): Promise<string> {
-  const apiUrl = `https://api.github.com/repos/${id}/${repo}/contents/${fileName}`
-  const res = await fetch(apiUrl, {
-    // headers,
-  })
-
-  if (!res.ok) {
-    const error = await res.json()
-    console.error('Error fetching file URL:', error)
-    throw new Error(`Failed to fetch file URL: ${error?.message}`)
-  }
-
-  const { download_url } = await res.json()
-  return download_url
-}
-
-export async function fetchPosts({ id, repo }: RepoInfo): Promise<Post[]> {
-  const apiUrl = `https://api.github.com/repos/${id}/${repo}/contents`
-
-  const res = await fetch(apiUrl, {
-    // headers,
-  })
-
-  if (!res.ok) {
-    const error = await res.json()
-    console.error('Error fetching posts:', error)
-
-    if (res.status === 404 && error?.message === 'This repository is empty.') {
-      console.warn('Repo is empty. Returning empty posts array.')
-      return []
-    }
-    throw new Error(`Failed to fetch post list: ${error?.message}`)
-  }
-
-  const files: { name: string; download_url: string }[] = await res.json()
-
-  const markdownFiles = files.filter(file => file.name.endsWith('.md'))
-
-  const posts = await Promise.all(
-    markdownFiles.map(file =>
-      fetchPost(file.download_url)
-        .then(post => {
-          return post
-        })
-        .catch(err => {
-          console.error(`Error fetching ${file.name}:`, err)
-          return null // 실패 시 해당 게시글 제외
-        }),
-    ),
-  )
-
-  return posts
-    .filter((post): post is Post => post !== null) // 에러 처리된 게시글 제외
-    .sort((a, b) => {
-      if (a.pinned && !b.pinned) return -1
-      if (!a.pinned && b.pinned) return 1
-      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    })
 }

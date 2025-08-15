@@ -1,26 +1,48 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
 import { ArrowLeft, Calendar, MessageSquare } from 'lucide-react'
 import { formatDate, replaceId } from '@lib/utils'
 import { Separator } from '@components/ui/separator'
 import { CommentSection } from './CommentSection'
-import { fetchPost, getFileURL } from '@lib/github'
+import { fetchPost } from '@lib/github'
 import MarkdownRenderer from '@components/MarkdownRenderer'
 import { ShareButton } from '@components/ShareButton'
 import { LikeButton } from '@components/LikeButton'
+import { cookies } from 'next/headers'
 
 export default async function BlogPost({
   params,
 }: {
   params: Promise<{ slug: string; id: string; repo: string }>
 }) {
+  const cookieStore = await cookies()
+  const token = cookieStore.get('github_token')?.value
   const { slug, id, repo } = await params
-  const fileURL = await getFileURL({ id: replaceId(id), repo }, `${slug}.md`)
-  const post = await fetchPost(fileURL)
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}/api/v1/posting/github/${replaceId(id)}/${slug}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  )
+
+  const { data } = await res.json()
+
+  const post = await fetchPost(data.githubDownloadUrl)
 
   if (!post) {
-    notFound()
+    return (
+      <div>
+        자신의 블로그에 해당하는 포스트가 없습니다. <br />
+        <Link href={`/@${replaceId(id)}/${repo}`} className="text-blue-500 hover:underline">
+          다른 포스트 보기
+        </Link>
+      </div>
+    )
   }
 
   return (
