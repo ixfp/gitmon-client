@@ -8,29 +8,25 @@ async function BlogMain() {
   const token = cookieStore.get('github_token')?.value
   const id = cookieStore.get('my_id')?.value
 
-  const { data: urlPosts } = await fetch(
-    `${process.env.NEXT_PUBLIC_API_DOMAIN}/api/v1/posting/${id}`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  )
-    .then(res => {
-      if (!res.ok) {
-        throw new Error('Failed to fetch posts')
-      }
-      console.log(res)
-      return res.json()
-    })
-    .catch(() => null)
+  if (!id || !token) {
+    return <div className="p-8 text-center text-gray-500">로그인이 필요합니다.</div>
+  }
 
-  if (!urlPosts) {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/v1/posting/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  const { data } = await res.json()
+
+  if (!data) {
     return (
       <div className="p-8 text-center text-gray-500">글을 불러오는 중 오류가 발생했습니다.</div>
     )
-  } else if (urlPosts.length === 0) {
+  } else if (data.length === 0) {
     return (
       <div className="p-8 text-center text-gray-500">
         이 저장소에는 아직 글이 없습니다. 첫 글을 작성해보세요!
@@ -38,7 +34,7 @@ async function BlogMain() {
     )
   }
 
-  const posts: Promise<Post>[] = urlPosts.map(
+  const posts: Promise<Post>[] = data.map(
     async (post: {
       id: number
       title: string
@@ -47,7 +43,7 @@ async function BlogMain() {
       updatedAt: string
     }) => {
       try {
-        return await fetchPost(post.githubDownloadUrl)
+        return { ...(await fetchPost(post.githubDownloadUrl)), id: post.id }
       } catch (error) {
         console.error(`Failed to fetch post ${post.id}:`, error)
         return { ...post, error: true }

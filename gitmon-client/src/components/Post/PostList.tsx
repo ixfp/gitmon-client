@@ -19,7 +19,7 @@ export function PostListItem({ post }: { post: Post }) {
   }
 
   const blogUrl =
-    post.author && post.repo && post.slug ? `/@${post.author}/${post.repo}/${post.slug}` : '#'
+    post.author && post.repo && post.id ? `/@${post.author}/${post.repo}/${post.id}` : '#'
   return (
     <Link href={blogUrl} className="group flex flex-col gap-8 border-b last:border-none p-4 pb-8">
       <div className="flex flex-1 flex-col gap-4">

@@ -112,7 +112,7 @@ export function PostForm({ onPostSaved }: PostFormProps) {
     <div className="space-y-6">
       <div className="flex flex-col space-y-4">
         <Input
-          placeholder="Post Title"
+          placeholder="제목을 입력하세요..."
           value={title}
           onChange={e => setTitle(e.target.value)}
           className="text-xl font-semibold"
@@ -209,7 +209,7 @@ export function PostForm({ onPostSaved }: PostFormProps) {
 
           <Button onClick={() => onPostSaved({ title, content })} className="gap-2">
             <Save size={16} />
-            Save Post
+            <p>글 작성</p>
           </Button>
         </div>
       </div>
