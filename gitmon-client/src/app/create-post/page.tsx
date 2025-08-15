@@ -38,9 +38,9 @@ export default function AddPost() {
         toast('게시글 저장에 실패했습니다.')
         throw new Error('게시글 저장 실패')
       }
-      return response.json()
+      return response
     },
-    onSuccess: async res => {
+    onSuccess: async (res, {}) => {
       const { data } = await res.json()
 
       toast('게시글이 저장되었습니다.')
