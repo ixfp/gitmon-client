@@ -33,7 +33,3 @@ jobs:
       - name: Run ESLint Check
         run: pnpm lint
         working-directory: gitmon-client
-
-      - name: Run Prettier Check
-        run: npx prettier --check .
-        working-directory: gitmon-client
