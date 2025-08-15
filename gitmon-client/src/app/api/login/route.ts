@@ -34,7 +34,6 @@ export async function POST(req: NextRequest) {
   response.cookies.set({
     name: 'github_token',
     value: accessToken,
-    httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
     path: '/',
@@ -44,7 +43,6 @@ export async function POST(req: NextRequest) {
   response.cookies.set({
     name: 'my_id',
     value: id,
-    httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
     path: '/',
