@@ -79,10 +79,10 @@ export default async function BlogPost({
                   {post.createdAt ? formatDate(post.createdAt) : 'Unknown date'}
                 </time>
               </div>
-            <div className="flex items-center gap-1">
-              <MessageSquare className="h-4 w-4" />
-              <span>{'3'} comments</span>
-            </div>
+              <div className="flex items-center gap-1">
+                <MessageSquare className="h-4 w-4" />
+                <span>{'3'} comments</span>
+              </div>
             </div>
             <PostButtons id={replaceId(id)} repo={repo} slug={slug} />
           </div>

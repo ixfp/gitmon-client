@@ -1,5 +1,7 @@
 'use client'
 
+import { useState } from 'react'
+
 import { useMutation } from '@tanstack/react-query'
 import { useParams, useRouter } from 'next/navigation'
 import { toast } from 'sonner'
@@ -8,9 +10,13 @@ import { PostForm } from '@components/Post'
 import matter from 'gray-matter'
 import { titleToSlug } from '@lib/utils'
 import { Post, PostMeta } from '@lib/types'
-import { useState } from 'react'
 
-export default function UpdatePost({ token, post }: { token: string | null, post: Omit<Post, 'id'> }) {
+interface UpdatePostProps {
+  token: string | null
+  post: Omit<Post, 'id'>
+}
+
+export default function UpdatePost({ token, post }: UpdatePostProps) {
   const router = useRouter()
   const { slug } = useParams()
   const [user, setUser] = useState<{ id: string; repo: string }>()

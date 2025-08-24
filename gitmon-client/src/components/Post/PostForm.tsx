@@ -33,7 +33,6 @@ interface PostFormProps {
   post: Omit<Post, 'id'>
 }
 
-
 export function PostForm({ onPostSaved, post }: PostFormProps) {
   const params = useParams()
   const [title, setTitle] = useState(post?.title || '')

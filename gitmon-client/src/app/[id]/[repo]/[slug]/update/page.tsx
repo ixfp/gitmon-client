@@ -1,9 +1,9 @@
-import Link from 'next/link';
+import Link from 'next/link'
 import { cookies } from 'next/headers'
 
 import UpdatePost from './UpdatePost'
-import { replaceId } from '@lib/utils';
-import { fetchPost } from '@lib/github';
+import { replaceId } from '@lib/utils'
+import { fetchPost } from '@lib/github'
 
 export default async function Page({
   params,
@@ -12,7 +12,6 @@ export default async function Page({
 }) {
   const { id, repo, slug } = await params
   const token = (await cookies()).get('github_token')?.value ?? null
-
 
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_DOMAIN}/api/v1/posting/github/${replaceId(id)}/${slug}`,
@@ -38,7 +37,6 @@ export default async function Page({
     )
   }
   const post = await fetchPost(data?.githubDownloadUrl)
-
 
   return <UpdatePost token={token} post={post} />
 }
