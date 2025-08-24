@@ -1,12 +1,20 @@
 'use client'
 
 import { Button } from '@components/ui'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 
-export const PostButtons = () => {
+interface PostButtonsProps {
+    id: string
+    repo: string
+    slug: string
+}
+
+export const PostButtons = ({ id, repo, slug }: PostButtonsProps) => {
+    const router = useRouter()
 
     const handleUpdate = () => {
-        console.log('update')
+        router.push(`/@${id}/${repo}/${slug}/update`)
     }
 
     const handleDelete = () => {

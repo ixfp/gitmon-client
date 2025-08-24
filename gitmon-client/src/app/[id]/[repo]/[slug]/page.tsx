@@ -84,7 +84,7 @@ export default async function BlogPost({
               <span>{'3'} comments</span>
             </div>
             </div>
-            <PostButtons />
+            <PostButtons id={replaceId(id)} repo={repo} slug={slug} />
           </div>
         </header>
 

@@ -10,11 +10,12 @@ import { titleToSlug } from '@lib/utils'
 import { PostMeta } from '@lib/types'
 import { useState } from 'react'
 
-export default function AddPost({ token }: { token: string | null }) {
+export default function UpdatePost({ token }: { token: string | null }) {
   const router = useRouter()
   const [user, setUser] = useState<{ id: string; repo: string }>()
 
   const { mutate } = useMutation({
+    // 해당 부분을 업데이트치는 API 호출로 변경해야 함
     mutationFn: async ({ title, blob }: { title: string; blob: Blob }) => {
       const body = new FormData()
       const fileName = titleToSlug(title)
