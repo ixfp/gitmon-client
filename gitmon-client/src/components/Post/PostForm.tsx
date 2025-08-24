@@ -30,7 +30,7 @@ import { Post } from '@lib/types'
 
 interface PostFormProps {
   onPostSaved: (post: { title: string; content: string }) => void
-  post: Omit<Post, 'id'>
+  post?: Omit<Post, 'id'>
 }
 
 export function PostForm({ onPostSaved, post }: PostFormProps) {
