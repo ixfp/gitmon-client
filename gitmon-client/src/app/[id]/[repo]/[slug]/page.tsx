@@ -3,12 +3,13 @@ import Link from 'next/link'
 import { ArrowLeft, Calendar, MessageSquare } from 'lucide-react'
 import { formatDate, replaceId } from '@lib/utils'
 import { Separator } from '@components/ui/separator'
-import { CommentSection } from './CommentSection'
+import { CommentSection } from '@components/Post/CommentSection'
 import { fetchPost } from '@lib/github'
 import MarkdownRenderer from '@components/MarkdownRenderer'
 import { ShareButton } from '@components/ShareButton'
 import { LikeButton } from '@components/LikeButton'
 import { cookies } from 'next/headers'
+import { PostButtons } from '@components/Post/PostButtons'
 
 export default async function BlogPost({
   params,
@@ -70,17 +71,20 @@ export default async function BlogPost({
           <h1 className="mb-4 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
             {post.title}
           </h1>
-          <div className="flex items-center justify-center gap-4 text-muted-foreground">
-            <div className="flex items-center gap-1">
-              <Calendar className="h-4 w-4" />
-              <time dateTime={post.createdAt || new Date().toISOString()}>
-                {post.createdAt ? formatDate(post.createdAt) : 'Unknown date'}
-              </time>
+          <div className="flex items-center justify-between gap-4 text-muted-foreground">
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-1">
+                <Calendar className="h-4 w-4" />
+                <time dateTime={post.createdAt || new Date().toISOString()}>
+                  {post.createdAt ? formatDate(post.createdAt) : 'Unknown date'}
+                </time>
+              </div>
+              <div className="flex items-center gap-1">
+                <MessageSquare className="h-4 w-4" />
+                <span>{'3'} comments</span>
+              </div>
             </div>
-            <div className="flex items-center gap-1">
-              <MessageSquare className="h-4 w-4" />
-              <span>{'3'} comments</span>
-            </div>
+            <PostButtons id={replaceId(id)} repo={repo} slug={slug} />
           </div>
         </header>
 
