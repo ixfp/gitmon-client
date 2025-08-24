@@ -10,7 +10,7 @@ export interface RepoInfo {
 export async function fetchPost(fileUrl: string): Promise<Omit<Post, 'id'>> {
   const encodedUrl = encodeURI(fileUrl).replace(/\?/g, '%3F')
 
-  const res = await fetch(encodedUrl)
+  const res = await fetch(encodedUrl, { cache: 'no-store' })
   if (!res.ok) throw new Error(`Failed to fetch: ${fileUrl}`)
 
   const rawMarkdown = await res.text()
