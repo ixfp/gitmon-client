@@ -1,18 +1,21 @@
 'use client'
 
 import { useMutation } from '@tanstack/react-query'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
 import { PostForm } from '@components/Post'
 import matter from 'gray-matter'
 import { titleToSlug } from '@lib/utils'
-import { PostMeta } from '@lib/types'
+import { Post, PostMeta } from '@lib/types'
 import { useState } from 'react'
 
-export default function UpdatePost({ token }: { token: string | null }) {
+export default function UpdatePost({ token, post }: { token: string | null, post: Omit<Post, 'id'> }) {
   const router = useRouter()
+  const { slug } = useParams()
   const [user, setUser] = useState<{ id: string; repo: string }>()
+
+  console.log(slug)
 
   const { mutate } = useMutation({
     // 해당 부분을 업데이트치는 API 호출로 변경해야 함
@@ -21,9 +24,10 @@ export default function UpdatePost({ token }: { token: string | null }) {
       const fileName = titleToSlug(title)
       body.append('title', fileName)
       body.append('content', blob, fileName)
+      body.append('id', slug as string)
 
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/v1/posting`, {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -92,7 +96,7 @@ export default function UpdatePost({ token }: { token: string | null }) {
 
   return (
     <div className="p-4">
-      <PostForm onPostSaved={handleSavePost} />
+      <PostForm onPostSaved={handleSavePost} post={post} />
     </div>
   )
 }

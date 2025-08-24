@@ -26,15 +26,18 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
+import { Post } from '@lib/types'
 
 interface PostFormProps {
   onPostSaved: (post: { title: string; content: string }) => void
+  post: Omit<Post, 'id'>
 }
 
-export function PostForm({ onPostSaved }: PostFormProps) {
+
+export function PostForm({ onPostSaved, post }: PostFormProps) {
   const params = useParams()
-  const [title, setTitle] = useState('')
-  const [content, setContent] = useState('')
+  const [title, setTitle] = useState(post?.title || '')
+  const [content, setContent] = useState(post?.content || '')
   const [showImageUploader, setShowImageUploader] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
