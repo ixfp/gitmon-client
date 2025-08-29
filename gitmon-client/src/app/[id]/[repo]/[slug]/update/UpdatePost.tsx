@@ -13,16 +13,13 @@ import { Post, PostMeta } from '@lib/types'
 
 interface UpdatePostProps {
   token: string | null
-  post: Omit<Post, 'id'>
+  post: Omit<Post, 'id'> | null
 }
 
 export default function UpdatePost({ token, post }: UpdatePostProps) {
   const router = useRouter()
   const { slug } = useParams()
   const [user, setUser] = useState<{ id: string; repo: string }>()
-
-  console.log(slug)
-
   const { mutate } = useMutation({
     // 해당 부분을 업데이트치는 API 호출로 변경해야 함
     mutationFn: async ({ title, blob }: { title: string; blob: Blob }) => {
@@ -33,7 +30,7 @@ export default function UpdatePost({ token, post }: UpdatePostProps) {
       body.append('id', slug as string)
 
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/v1/posting`, {
-        method: 'PUT',
+        method: post ? 'PUT' : 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
         },

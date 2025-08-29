@@ -91,7 +91,7 @@ export default function AddPost({ token }: { token: string | null }) {
 
   return (
     <div className="p-4">
-      <PostForm onPostSaved={handleSavePost} />
+      <PostForm onPostSaved={handleSavePost} post={null} />
     </div>
   )
 }
