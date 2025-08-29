@@ -23,15 +23,7 @@ export default async function Page({
       },
     },
   )
-  
-  const temporaryFetchPost = async () => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_DOMAIN}/api/v1/posting/github/${replaceId(id)}/${slug}`,
-    )
-    const { data } = await res.json()
-    return data
-  }
-  
+
   const { data } = await res.json()
 
   if (!data?.githubDownloadUrl) {
