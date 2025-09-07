@@ -84,7 +84,10 @@ export default function ImageUploader({ onImageInsert, onCancel, token }: ImageU
           <div className="flex gap-4">
             <Button
               variant={uploadType === 'file' ? 'default' : 'outline'}
-              onClick={() => setUploadType('file')}
+              onClick={() => {
+                setUploadType('file')
+                setImageUrl('')
+              }}
               className="flex-1 gap-2"
             >
               <Upload size={16} />
@@ -92,7 +95,11 @@ export default function ImageUploader({ onImageInsert, onCancel, token }: ImageU
             </Button>
             <Button
               variant={uploadType === 'url' ? 'default' : 'outline'}
-              onClick={() => setUploadType('url')}
+              onClick={() => {
+                setUploadType('url')
+                setFile(null)
+                setPreviewUrl(null)
+              }}
               className="flex-1 gap-2"
             >
               <LinkIcon size={16} />
@@ -101,7 +108,7 @@ export default function ImageUploader({ onImageInsert, onCancel, token }: ImageU
           </div>
 
           {uploadType === 'file' ? (
-            <div className="grid gap-2">
+            <div className="grid gap-2" key="file">
               <Label htmlFor="image-upload">Select Image</Label>
               <Input id="image-upload" type="file" accept="image/*" onChange={handleFileChange} />
               {previewUrl && (
@@ -118,7 +125,7 @@ export default function ImageUploader({ onImageInsert, onCancel, token }: ImageU
               )}
             </div>
           ) : (
-            <div className="grid gap-2">
+            <div className="grid gap-2" key="url">
               <Label htmlFor="image-url">Image URL</Label>
               <Input
                 id="image-url"
