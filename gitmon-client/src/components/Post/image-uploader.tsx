@@ -119,6 +119,7 @@ export default function ImageUploader({ onImageInsert, onCancel, token }: ImageU
                     alt="Preview"
                     width={200}
                     height={200}
+                    unoptimized
                     className="max-h-[200px] max-w-full object-contain border rounded"
                   />
                 </div>
@@ -142,6 +143,7 @@ export default function ImageUploader({ onImageInsert, onCancel, token }: ImageU
                     alt="Preview"
                     width={200}
                     height={200}
+                    unoptimized
                     className="max-h-[200px] max-w-full object-contain border rounded"
                     onError={() => {
                       toast('Failed to load image from URL')
