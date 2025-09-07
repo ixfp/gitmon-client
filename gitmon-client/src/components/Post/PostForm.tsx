@@ -131,8 +131,8 @@ export function PostForm({ onPostSaved, post, token }: PostFormProps) {
       setIsUploading(true)
       const url = await uploadImage(imageFile, token)
       insertTextAtCursor(`![](${url})`)
-    } catch (e: any) {
-      toast(e?.message || '이미지 업로드에 실패했습니다.')
+    } catch (e: unknown) {
+      toast((e as Error)?.message || '이미지 업로드에 실패했습니다.')
     } finally {
       setIsUploading(false)
     }

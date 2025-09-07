@@ -3,6 +3,11 @@
 const MAX_BYTES = 10 * 1024 * 1024 // 10MB
 const ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png', 'webp', 'gif']
 
+interface UploadResponse {
+  data?: string
+  errorMessage?: string
+}
+
 function getExtension(filename: string): string {
   const parts = filename.split('.')
   return parts.length > 1 ? parts.pop()!.toLowerCase() : ''
@@ -43,7 +48,7 @@ export async function uploadImage(file: File, token: string): Promise<string> {
     body: form,
   })
 
-  let payload: any = await res.json()
+  const payload = (await res.json()) as UploadResponse
 
   if (res.status === 201) {
     const imageUrl = payload?.data
@@ -53,7 +58,7 @@ export async function uploadImage(file: File, token: string): Promise<string> {
     throw new Error('이미지 업로드 응답이 올바르지 않습니다.')
   }
 
-  const serverMessage = payload?.errorMessage as string | undefined
+  const serverMessage = payload?.errorMessage
 
   if (res.status === 400) {
     throw new Error(serverMessage || '허용되지 않은 이미지 확장자입니다.')
@@ -72,5 +77,3 @@ export const ImageUploadPolicy = {
   maxBytes: MAX_BYTES,
   allowedExtensions: ALLOWED_EXTENSIONS,
 }
-
-
