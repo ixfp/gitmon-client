@@ -16,17 +16,20 @@ import {
 import { toast } from 'sonner'
 import { Upload, LinkIcon } from 'lucide-react'
 import Image from 'next/image'
+import { uploadImage } from '@lib/upload'
 
 interface ImageUploaderProps {
   onImageInsert: (imageUrl: string) => void
   onCancel: () => void
+  token: string | null
 }
 
-export default function ImageUploader({ onImageInsert, onCancel }: ImageUploaderProps) {
+export default function ImageUploader({ onImageInsert, onCancel, token }: ImageUploaderProps) {
   const [uploadType, setUploadType] = useState<'file' | 'url'>('file')
   const [imageUrl, setImageUrl] = useState('')
   const [file, setFile] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const [isUploading, setIsUploading] = useState(false)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -42,7 +45,7 @@ export default function ImageUploader({ onImageInsert, onCancel }: ImageUploader
     }
   }
 
-  const handleInsert = () => {
+  const handleInsert = async () => {
     if (uploadType === 'url') {
       if (!imageUrl.trim()) {
         toast('Please enter an image URL')
@@ -54,11 +57,18 @@ export default function ImageUploader({ onImageInsert, onCancel }: ImageUploader
         toast('Please select an image file')
         return
       }
-
-      // In a real application, you would upload the file to a server
-      // and get back a URL. For this demo, we'll use the preview URL.
-      if (previewUrl) {
-        onImageInsert(previewUrl)
+      if (!token) {
+        toast('로그인이 필요하거나 토큰이 없습니다.')
+        return
+      }
+      try {
+        setIsUploading(true)
+        const url = await uploadImage(file, token)
+        onImageInsert(url)
+      } catch (e: any) {
+        toast(e?.message || '이미지 업로드에 실패했습니다.')
+      } finally {
+        setIsUploading(false)
       }
     }
   }
@@ -100,6 +110,8 @@ export default function ImageUploader({ onImageInsert, onCancel }: ImageUploader
                   <Image
                     src={previewUrl || '/placeholder.svg'}
                     alt="Preview"
+                    width={200}
+                    height={200}
                     className="max-h-[200px] max-w-full object-contain border rounded"
                   />
                 </div>
@@ -121,6 +133,8 @@ export default function ImageUploader({ onImageInsert, onCancel }: ImageUploader
                   <Image
                     src={imageUrl || '/placeholder.svg'}
                     alt="Preview"
+                    width={200}
+                    height={200}
                     className="max-h-[200px] max-w-full object-contain border rounded"
                     onError={() => {
                       toast('Failed to load image from URL')
@@ -133,10 +147,12 @@ export default function ImageUploader({ onImageInsert, onCancel }: ImageUploader
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={onCancel}>
+          <Button variant="outline" onClick={onCancel} disabled={isUploading}>
             Cancel
           </Button>
-          <Button onClick={handleInsert}>Insert Image</Button>
+          <Button onClick={handleInsert} disabled={isUploading}>
+            {isUploading ? 'Uploading...' : 'Insert Image'}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -9,6 +9,8 @@ import { Card } from '@components/ui/card'
 import MarkdownPreview from './markdown-preview'
 import ToolbarButton from './toolbar-button'
 import ImageUploader from './image-uploader'
+import { uploadImage } from '@lib/upload'
+import { toast } from 'sonner'
 import {
   Bold,
   Italic,
@@ -31,13 +33,15 @@ import { Post } from '@lib/types'
 interface PostFormProps {
   onPostSaved: (post: { title: string; content: string }) => void
   post: Omit<Post, 'id'> | null
+  token?: string | null
 }
 
-export function PostForm({ onPostSaved, post }: PostFormProps) {
+export function PostForm({ onPostSaved, post, token }: PostFormProps) {
   const params = useParams()
   const [title, setTitle] = useState(post?.title || '')
   const [content, setContent] = useState(post?.content || '')
   const [showImageUploader, setShowImageUploader] = useState(false)
+  const [isUploading, setIsUploading] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   const insertTextAtCursor = useCallback(
@@ -106,8 +110,51 @@ export function PostForm({ onPostSaved, post }: PostFormProps) {
   }
 
   const handleImageInsert = (imageUrl: string) => {
-    insertTextAtCursor(`![Image](${imageUrl})`)
+    insertTextAtCursor(`![](${imageUrl})`)
     setShowImageUploader(false)
+  }
+
+  const handleFilesToUpload = async (files: FileList | File[]) => {
+    if (!files || files.length === 0) return
+    const fileArray = Array.from(files)
+    const imageFile = fileArray.find(f => f.type.startsWith('image/'))
+    if (!imageFile) return
+    if (!token) {
+      toast('로그인이 필요하거나 토큰이 없습니다.')
+      return
+    }
+    try {
+      setIsUploading(true)
+      const url = await uploadImage(imageFile, token)
+      insertTextAtCursor(`![](${url})`)
+    } catch (e: any) {
+      toast(e?.message || '이미지 업로드에 실패했습니다.')
+    } finally {
+      setIsUploading(false)
+    }
+  }
+
+  const onDragOver = (e: React.DragEvent<HTMLTextAreaElement>) => {
+    e.preventDefault()
+  }
+
+  const onDrop = async (e: React.DragEvent<HTMLTextAreaElement>) => {
+    e.preventDefault()
+    const dt = e.dataTransfer
+    if (dt?.files && dt.files.length > 0) {
+      await handleFilesToUpload(dt.files)
+    }
+  }
+
+  const onPaste = async (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    const items = e.clipboardData?.files
+    if (items && items.length > 0) {
+      const hasImage = Array.from(items).some(f => f.type.startsWith('image/'))
+      if (hasImage) {
+        e.preventDefault()
+        await handleFilesToUpload(items)
+      }
+    }
   }
 
   return (
@@ -190,6 +237,9 @@ export function PostForm({ onPostSaved, post }: PostFormProps) {
             placeholder="Write your post content in markdown..."
             value={content}
             onChange={e => setContent(e.target.value)}
+            onDragOver={onDragOver}
+            onDrop={onDrop}
+            onPaste={onPaste}
             className="min-h-[400px] font-mono text-sm resize-y"
           />
         </TabsContent>
@@ -218,6 +268,7 @@ export function PostForm({ onPostSaved, post }: PostFormProps) {
 
       {showImageUploader && (
         <ImageUploader
+          token={token || null}
           onImageInsert={handleImageInsert}
           onCancel={() => setShowImageUploader(false)}
         />

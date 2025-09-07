@@ -99,7 +99,7 @@ export default function UpdatePost({ token, post }: UpdatePostProps) {
 
   return (
     <div className="p-4">
-      <PostForm onPostSaved={handleSavePost} post={post} />
+      <PostForm onPostSaved={handleSavePost} post={post} token={token} />
     </div>
   )
 }
