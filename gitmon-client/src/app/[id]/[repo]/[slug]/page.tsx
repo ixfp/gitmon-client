@@ -4,12 +4,12 @@ import { ArrowLeft, Calendar, MessageSquare } from 'lucide-react'
 import { formatDate, replaceId } from '@lib/utils'
 import { Separator } from '@components/ui/separator'
 import { CommentSection } from '@components/Post/CommentSection'
-import { fetchPost } from '@lib/github'
 import MarkdownRenderer from '@components/MarkdownRenderer'
 import { ShareButton } from '@components/ShareButton'
 import { LikeButton } from '@components/LikeButton'
 import { cookies } from 'next/headers'
 import { PostButtons } from '@components/Post/PostButtons'
+import { BlogService } from '../../../../api/services'
 
 export default async function BlogPost({
   params,
@@ -20,101 +20,90 @@ export default async function BlogPost({
   const token = cookieStore.get('github_token')?.value
   const { slug, id, repo } = await params
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_DOMAIN}/api/v1/posting/github/${replaceId(id)}/${slug}`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  )
+  try {
+    const post = await BlogService.getBlogPost(token || '', replaceId(id), slug);
 
-  const { data } = await res.json()
+    if (!post) {
+      return (
+        <div>
+          해당 포스트를 찾을 수 없습니다. <br />
+          <Link href={`/@${replaceId(id)}/${repo}`} className="text-blue-500 hover:underline">
+            다른 포스트 보기
+          </Link>
+        </div>
+      )
+    }
 
-  if (!data?.githubDownloadUrl) {
-    return (
-      <div>
-        해당 포스트를 찾을 수 없습니다. <br />
-        <Link href={`/@${replaceId(id)}/${repo}`} className="text-blue-500 hover:underline">
-          다른 포스트 보기
+      return (
+      <article className="container mx-auto px-4 py-12">
+        <Link
+          href={`/@${replaceId(id)}/${repo}`}
+          className="mb-8 inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground"
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back to all posts
         </Link>
-      </div>
-    )
-  }
-  const post = await fetchPost(data?.githubDownloadUrl)
 
-  if (!post) {
-    return (
-      <div>
-        자신의 블로그에 해당하는 포스트가 없습니다. <br />
-        <Link href={`/@${replaceId(id)}/${repo}`} className="text-blue-500 hover:underline">
-          다른 포스트 보기
-        </Link>
-      </div>
-    )
-  }
-
-  return (
-    <article className="container mx-auto px-4 py-12">
-      <Link
-        href={`/@${replaceId(id)}/${repo}`}
-        className="mb-8 inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground"
-      >
-        <ArrowLeft className="mr-2 h-4 w-4" />
-        Back to all posts
-      </Link>
-
-      <div className="mx-auto max-w-3xl">
-        <header className="mb-8 text-center">
-          <h1 className="mb-4 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            {post.title}
-          </h1>
-          <div className="flex items-center justify-between gap-4 text-muted-foreground">
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-1">
-                <Calendar className="h-4 w-4" />
-                <time dateTime={post.createdAt || new Date().toISOString()}>
-                  {post.createdAt ? formatDate(post.createdAt) : 'Unknown date'}
-                </time>
+        <div className="mx-auto max-w-3xl">
+          <header className="mb-8 text-center">
+            <h1 className="mb-4 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+              {post.title}
+            </h1>
+            <div className="flex items-center justify-between gap-4 text-muted-foreground">
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-1">
+                  <Calendar className="h-4 w-4" />
+                  <time dateTime={post.createdAt || new Date().toISOString()}>
+                    {post.createdAt ? formatDate(post.createdAt) : 'Unknown date'}
+                  </time>
+                </div>
+                <div className="flex items-center gap-1">
+                  <MessageSquare className="h-4 w-4" />
+                  <span>{'3'} comments</span>
+                </div>
               </div>
-              <div className="flex items-center gap-1">
-                <MessageSquare className="h-4 w-4" />
-                <span>{'3'} comments</span>
-              </div>
+              <PostButtons id={replaceId(id)} repo={repo} slug={slug} />
             </div>
-            <PostButtons id={replaceId(id)} repo={repo} slug={slug} />
+          </header>
+
+          <Image
+            src={post.coverImage || '/placeholder.svg'}
+            alt={post.title}
+            width={1200}
+            height={630}
+            className="mb-8 aspect-video rounded-lg object-cover"
+            priority
+          />
+
+          <div className="prose prose-lg mx-auto dark:prose-invert">
+            <MarkdownRenderer markdown={post.content} />
           </div>
-        </header>
 
-        <Image
-          src={post.coverImage || '/placeholder.svg'}
-          alt={post.title}
-          width={1200}
-          height={630}
-          className="mb-8 aspect-video rounded-lg object-cover"
-          priority
-        />
+          <div className="mt-8 flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <LikeButton postSlug={slug} initialLikes={0} />
+            </div>
+            <div className="flex items-center">
+              <span className="text-sm text-muted-foreground">Share this post:</span>
+              <ShareButton path={`/@${post.author}/${post.repo}/${post.slug}`} />
+            </div>
+          </div>
 
-        <div className="prose prose-lg mx-auto dark:prose-invert">
-          <MarkdownRenderer markdown={post.content} />
+          <Separator className="my-8" />
+
+          <CommentSection postSlug={slug} />
         </div>
-
-        <div className="mt-8 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <LikeButton postSlug={slug} initialLikes={0} />
-          </div>
-          <div className="flex items-center">
-            <span className="text-sm text-muted-foreground">Share this post:</span>
-            <ShareButton path={`/@${post.author}/${post.repo}/${post.slug}`} />
-          </div>
-        </div>
-
-        <Separator className="my-8" />
-
-        <CommentSection postSlug={slug} />
+      </article>
+    )
+  } catch (error) {
+    console.error('Failed to fetch blog post:', error);
+    return (
+      <div>
+        글을 불러오는 중 오류가 발생했습니다. <br />
+        <Link href={`/@${replaceId(id)}/${repo}`} className="text-blue-500 hover:underline">
+          다른 포스트 보기
+        </Link>
       </div>
-    </article>
-  )
+    )
+  }
 }

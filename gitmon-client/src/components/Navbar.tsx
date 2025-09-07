@@ -16,6 +16,7 @@ import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { Button } from './ui'
 import { cookies } from 'next/headers'
 import { LogoutButton } from './LogoutButton'
+import { MemberService } from '../api/services'
 
 const Navbar = async () => {
   return (
@@ -39,16 +40,8 @@ const MenuItems = async () => {
     return <div className="flex gap-1 items-center"></div>
   }
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/v1/member`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-  })
-
-  const { data } = await res.json()
-  const username = data?.githubUsername
+  const response = await MemberService.getMember(token);
+  const username = response.data?.githubUsername;
 
   return (
     <div className="flex gap-1 items-center">

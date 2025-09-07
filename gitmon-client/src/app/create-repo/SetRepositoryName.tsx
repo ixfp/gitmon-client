@@ -5,6 +5,7 @@ import { Input } from '@components/ui/input'
 import { Button } from '@components/ui/button'
 import { Label } from '@components/ui/label'
 import { useMutation } from '@tanstack/react-query'
+import { MemberService } from '@api/services'
 
 export default function SetRepositoryName({ token }: { token: string | null }) {
   const [repoName, setRepoName] = useState('')
@@ -12,26 +13,16 @@ export default function SetRepositoryName({ token }: { token: string | null }) {
 
   const { mutate } = useMutation({
     mutationFn: async (repoName: string) => {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/v1/member/repo`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name: repoName }),
-      })
-
-      if (response.ok) {
-        const res = new Response(response.body)
-        const data = await res.json()
-        return data
-      }
+      if (!token) throw new Error('토큰이 없습니다.');
+      
+      const response = await MemberService.setRepository(token, repoName);
+      return response;
     },
     onSuccess: () => {
       window.location.href = '/my-post'
     },
     onError: error => {
-      console.error('Authentication failed:', error)
+      console.error('Repository setup failed:', error)
     },
   })
 
