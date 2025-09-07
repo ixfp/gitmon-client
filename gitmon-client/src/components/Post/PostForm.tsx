@@ -46,7 +46,11 @@ export function PostForm({ onPostSaved, post, token }: PostFormProps) {
 
   const insertTextAtCursor = useCallback(
     (textBefore: string, textAfter = '') => {
-      if (!textareaRef.current) return
+      if (!textareaRef.current) {
+        // Textarea가 언마운트된 경우(예: Preview 탭): 본문 끝에 추가
+        setContent(prev => prev + textBefore + textAfter)
+        return
+      }
 
       const textarea = textareaRef.current
       const start = textarea.selectionStart
