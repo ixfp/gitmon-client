@@ -238,12 +238,13 @@ export function PostForm({ onPostSaved, post, token }: PostFormProps) {
         <TabsContent value="write" className="mt-2">
           <Textarea
             ref={textareaRef}
-            placeholder="Write your post content in markdown..."
+            placeholder={isUploading ? "이미지 업로드 중..." : "Write your post content in markdown..."}
             value={content}
             onChange={e => setContent(e.target.value)}
             onDragOver={onDragOver}
             onDrop={onDrop}
             onPaste={onPaste}
+            disabled={isUploading}
             className="min-h-[400px] font-mono text-sm resize-y"
           />
         </TabsContent>
@@ -263,9 +264,9 @@ export function PostForm({ onPostSaved, post, token }: PostFormProps) {
             </Link>
           </Button>
 
-          <Button onClick={() => onPostSaved({ title, content })} className="gap-2">
+          <Button onClick={() => onPostSaved({ title, content })} disabled={isUploading} className="gap-2">
             <Save size={16} />
-            <p>글 작성</p>
+            <p>{isUploading ? '업로드 중...' : '글 작성'}</p>
           </Button>
         </div>
       </div>
